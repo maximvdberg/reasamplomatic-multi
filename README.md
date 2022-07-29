@@ -39,11 +39,17 @@ or use whatever Python package manager you have installed.
 
 ### Getting the script
 
-...
+You can add the following repository to [ReaPack](https://reapack.com/):
+
+```
+https://github.com/maximvdberg/reasamplomatic-multi/raw/master/index.xml
+```
+
+Alternatively, you can download the script from this repository, and run the it with Python.
 
 ## Usage notes
 
-The multi sampler window
+[will be written soon]
 
 The multisampler will show all ReaSamplOmatic5000s from the selected track. Check `freeze` to stay on the selected track, and not follow the selection any more.
 
@@ -78,11 +84,11 @@ When the `Separate overlap` option is ticked, all ReaSamploMatic5000s with overl
 
 ### Copying parameters
 
-...
+[will be written soon]
 
 ### Keyboard shortcuts
 
-...
+[will be written soon]
 
 ## Planned Features
  - [ ] Call "detect pitch" from the sampler
