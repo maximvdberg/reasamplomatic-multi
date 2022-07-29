@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ReaSamplOmatic5000 Multi" commit="eab7c4b66d10d04a7040a83c36f810308b781958">
+<index version="1" name="ReaSamplOmatic5000 Multi" commit="bb4fd7b358526924d9ad9890e95d6155e8c25cda">
   <category name="reasamplomatic-multi">
     <reapack name="multi_sampler.py" type="script" desc="ReaSamplOmatic5000 multi">
       <metadata>
