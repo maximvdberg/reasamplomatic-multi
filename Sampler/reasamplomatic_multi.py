@@ -27,8 +27,6 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.font as tkfont
 
-from midi_drumkit import *
-
 try:
     import tkinterdnd2
     dnd_available = True
