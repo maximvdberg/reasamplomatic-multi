@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ReaSamplOmatic5000 Multi" commit="bb4fd7b358526924d9ad9890e95d6155e8c25cda">
-  <category name="reasamplomatic-multi">
-    <reapack name="multi_sampler.py" type="script" desc="ReaSamplOmatic5000 multi">
+<index version="1" name="ReaSamplOmatic5000 Multi" commit="334884ce2ffddc5717d57639b095a67ac199bd8f">
+  <category name="Sampler">
+    <reapack name="reasamplomatic_multi.py" type="script" desc="ReaSamplOmatic5000 multi">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
@@ -11,17 +11,17 @@
 }
 ]]></description>
       </metadata>
-      <version name="1.0.0" author="maxim" time="2022-07-29T13:40:04Z">
-        <source main="main">https://github.com/maximvdberg/reasamplomatic-multi/raw/eab7c4b66d10d04a7040a83c36f810308b781958/reasamplomatic-multi/multi_sampler.py</source>
+      <version name="1.0.0" author="maxim" time="2022-07-29T14:28:55Z">
+        <source main="main">https://github.com/maximvdberg/reasamplomatic-multi/raw/334884ce2ffddc5717d57639b095a67ac199bd8f/Sampler/reasamplomatic_multi.py</source>
       </version>
     </reapack>
   </category>
   <metadata>
-    <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+    <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 ReaSamplOmatic5000 multi\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 ReaSamplOmatic5000 multi\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 ReaSamplOmatic500 multi lets you arrange ReaSamplOmatic5000 instances on a piano roll. This project aims to give REAPER a sampler such as FL Studio's {\field{\*\fldinst{HYPERLINK "https://www.image-line.com/fl-studio-learning/fl-studio-online-manual/html/plugins/DirectWave.htm"}}{\fldrslt{\ul
 DirectWave Sampler
 }}}
@@ -43,7 +43,7 @@ MPL's ReaSamplomatic5000 manager
 ReaSamplomatic5000 scripts
 }}}
  too!\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Contents\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Contents\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 1.\tx360\tab {\field{\*\fldinst{HYPERLINK "#dependencies-and-installation"}}{\fldrslt{\ul
 Dependencies and Installation
 }}}
@@ -88,28 +88,28 @@ Limitations
 License
 }}}
 \sa180\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Dependencies and Installation\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Dependencies and Installation\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 You need to install {\f1 reapy} and {\f1 tkinter} for the program to work. To install {\f1 reapy}, see the instructions over {\field{\*\fldinst{HYPERLINK "https://github.com/RomeoDespres/reapy#installation"}}{\fldrslt{\ul
 here
 }}}
 . Make sure you have Python installed and that it is detected by REAPER. {\f1 tkinter} should be installed by default.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Optional dependencies\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Optional dependencies\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab For drag-and-drop support, install the {\f1 tkinterdnd2} package.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab To show useful tooltips on hover, you need to install {\f1 tktooltip}.\sa180\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 To install these dependencies, run the following in a terminal:\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \f1 pip install mido tkinterdnd2 tktooltip\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 or use whatever Python package manager you have installed.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Getting the script\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Getting the script\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 You can add the following repository to {\field{\*\fldinst{HYPERLINK "https://reapack.com/"}}{\fldrslt{\ul
 ReaPack
 }}}
 :\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \f1 https://github.com/maximvdberg/reasamplomatic-multi/raw/master/index.xml\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 Alternatively, you can download the script from this repository, and run the it with Python.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Usage notes\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Usage notes\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 [will be written soon]\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 The multisampler will show all ReaSamplOmatic5000s from the selected track. Check {\f1 freeze} to stay on the selected track, and not follow the selection any more.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Feature list\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Feature list\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 A short list of features and usage notes:\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Adding instances} The {\f1 Add} button adds an instance of ReaSamplOmatic5000 on all selected tracks. If no track is selected, it creates a new track.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Moving} Move note ranges by clicking and dragging.\par}
@@ -128,37 +128,37 @@ creating groups
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Shortcuts} You can press {\f1 r} as a shortcut for {\f1 Refresh}, {\f1 a} for {\f1 Add}, and {\f1 s} for {\f1 Separate}. Press {\f1 c} to scroll the view to C2.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Defaults} If you want, you can change some default values at the top of the script (short descriptions are given). You can change behaviour as well as appearance.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Colors} The multisampler also uses the track colors. You can set the alpha parameter at the top of the script to change how to colors are used.\sa180\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Creating groups\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Creating groups\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 The {\f1 Separate} action takes all ReaSamplOmatic5000 instances on the current track, and separates them over new tracks. It adds a MIDI-route from the selected track to these tracks. This is useful for individual effects processing (for instance when sampling drums: for the bass drum, the snare, hi-hats, etc.). You can still edit the ranges in the original multi sampler window.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 You can select any of these tracks and use the multisampler on them individually. This acts essentially as a group, where you can add and tweak additional FX for this set of ReaSamplOmatic5000s as you please. Selecting the original parent track again gives you access to all groups at once. In fact, the GUI will show all ReaSamplOmatic5000 instances which are reached through MIDI routing from the selected track (up to a recursion limit, which you can change at the top of the script).\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 When the {\f1 Create bus} option is ticked, an additional bus track is created. You can make a folder of the created track with this as the parent track to mix everything together. If you have the SWS extension installed, this is done automatically!\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 When the {\f1 Separate overlap} option is ticked, all ReaSamploMatic5000s with overlap will be send to the same track when separating. This is handy for instance when designing a snare consisting of multiple samples, which need to remain mixed together when applying FX.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Copying parameters\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Copying parameters\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 [will be written soon]\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Keyboard shortcuts\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Keyboard shortcuts\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 [will be written soon]\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Planned Features\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Planned Features\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab [ ] Call "detect pitch" from the sampler\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab [ ] A way to save user settings without requiring them to edit the script\sa180\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 Testing! Especially on different platforms, which hasn't been done yet.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Limitations\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs24 Docking\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Limitations\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel3 \b \fs24 Docking\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 As far as I know, tk windows cannot be docked in REAPER, so docking the multi sampler is sadly not possible.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs24 No automatic pitch detection\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel3 \b \fs24 No automatic pitch detection\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 After changing the note range for pitched samples, you currently need to manually hit the "Detect pitch" button in each ReaSamplOmatic5000 instance. This is very impractical, and really limits the usability of the program. I already asked {\field{\*\fldinst{HYPERLINK "https://forum.cockos.com/showthread.php?t=19881"}}{\fldrslt{\ul
 in this thread
 }}}
 , perhaps one day this option will be there.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs24 Drag and drop from inside REAPER\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel3 \b \fs24 Drag and drop from inside REAPER\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 Since drag-and-dropping anything from REAPER freezes the REAPER window, communication with reapy will hang. So the loop which checks for changes in REAPER (such as switching tracks and name changes) will then hang too, which freezes everything.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 This can be circumvented by disabling communication with REAPER whenever doing drag and drop. However, we don't know when the user might initiate drag and drop. As a workaround, we can disable REAPER communication altogether when the multi sampler window is not focused.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 The option {\f1 D&D REAPER} does precisely this: turn it on to enable drag-and-drop from inside of REAPER, at the cost of the multi sampler only being updated when the its window is focused.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 If you know a more elegant solution to this, let me know!\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs24 Flickering zoom\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel3 \b \fs24 Flickering zoom\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 There is some flickering while zooming. I'm pretty sure this is a limitation on how tkinter works, as I don't think it is impossible to pause the render callback during resizing. Please tell me if you know of a way to circumvent this!\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs24 Bugs\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel3 \b \fs24 Bugs\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 There are probably a lot of bugs still. Please let me know if you find one! (and tell me how to reproduce it)\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 License\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 License\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 The script is licensed under the GNU GPLv3, see {\field{\*\fldinst{HYPERLINK "LICENSE"}}{\fldrslt{\ul
 license
 }}}
