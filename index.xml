@@ -100,9 +100,14 @@ here
 {\pard \ql \f0 \sa180 \li0 \fi0 \f1 pip install mido tkinterdnd2 tktooltip\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 or use whatever Python package manager you have installed.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Getting the script\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 ...\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 You can add the following repository to {\field{\*\fldinst{HYPERLINK "https://reapack.com/"}}{\fldrslt{\ul
+ReaPack
+}}}
+:\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \f1 https://github.com/maximvdberg/reasamplomatic-multi/raw/master/index.xml\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Alternatively, you can download the script from this repository, and run the it with Python.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Usage notes\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 The multi sampler window\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 [will be written soon]\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 The multisampler will show all ReaSamplOmatic5000s from the selected track. Check {\f1 freeze} to stay on the selected track, and not follow the selection any more.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Feature list\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 A short list of features and usage notes:\par}
@@ -129,9 +134,9 @@ creating groups
 {\pard \ql \f0 \sa180 \li0 \fi0 When the {\f1 Create bus} option is ticked, an additional bus track is created. You can make a folder of the created track with this as the parent track to mix everything together. If you have the SWS extension installed, this is done automatically!\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 When the {\f1 Separate overlap} option is ticked, all ReaSamploMatic5000s with overlap will be send to the same track when separating. This is handy for instance when designing a snare consisting of multiple samples, which need to remain mixed together when applying FX.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Copying parameters\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 ...\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 [will be written soon]\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel2 \b \fs28 Keyboard shortcuts\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 ...\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 [will be written soon]\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Planned Features\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab [ ] Call "detect pitch" from the sampler\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab [ ] A way to save user settings without requiring them to edit the script\sa180\par}
