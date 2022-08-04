@@ -44,8 +44,8 @@ except:
     tooltip_available = False
 
 import webbrowser
+import subprocess
 import traceback
-import threading
 import random
 import socket
 import pickle
@@ -179,7 +179,7 @@ pixel = None
 track_name_text = None
 track_name_label = None
 render_groups = []
-adjust_for_highlight = True
+adjust_for_highlight = 2
 right_click_menu = None
 internal_script_active = False
 
@@ -287,10 +287,9 @@ class SamploRange():
         if self.layer == self.layer_count - 1:
             height += self.max_height - self.layer_count * height
 
-        global adjust_for_highlight
-        if adjust_for_highlight:
-            width -= 2 * highlight
-            height -= 2 * highlight
+        # Adjust for the highlight offsets.
+        width -= adjust_for_highlight * highlight
+        height -= adjust_for_highlight * highlight
 
         # Drawing.
         self.widget.place(x=x_pos, y=y_pos)
@@ -627,7 +626,7 @@ class SamploRange():
 
         # Redraw the size.
         self.width = int(width_per_note * (self.end - self.start + 1))
-        self.widget.configure(width=self.width - 2 * highlight)
+        self.widget.configure(width=self.width - adjust_for_highlight * highlight)
 
         self.check_change(amount)
 
@@ -635,7 +634,7 @@ class SamploRange():
     # `start` and `end` values.
     def resize_place(self):
         self.widget.place(x=self.start * width_per_note)
-        self.widget.configure(width=self.width - 2 * highlight)
+        self.widget.configure(width=self.width - adjust_for_highlight * highlight)
 
     # Move the note range, based on TKinter mouse event.
     def move(self, event):
@@ -1375,21 +1374,25 @@ def check_selected():
     global root, current_track, freeze, slow_counter, samploranges
 
     if not freeze.get():
-        # Run the REAPER check, except when we allow drag and drop from REAPER and the
-        # window is not focused.
-        if not allow_reaper_drag_and_drop.get() or root.focus_displayof() != None:
-            reaper_check_selected()
+        # If not focused, up the counter.
+        if root.focus_displayof() == None:
+            slow_counter += 1
 
-        # When we don't allow REAPER drag and drop, run the slow REAPER check only when
-        # the window is not focussed.
-        # Else, run it only when the window is focused.
-        if not allow_reaper_drag_and_drop.get() and root.focus_displayof() == None:
-            reaper_check_selected_slow()
-        elif allow_reaper_drag_and_drop.get() and root.focus_displayof() != None:
-            # Only update if not currently dragging.
-            in_motion = any(s.in_motion for s in samploranges)
-            if not in_motion:
-                # Also wait for the counter to complete
+        if allow_reaper_drag_and_drop.get():
+            # Run the external REAPER checks only when the window come into focus.
+            if root.focus_displayof() != None and slow_counter > 0:
+                reaper_check_selected()
+                reaper_check_selected_slow()
+                slow_counter = 0
+
+            # in_motion = any(s.in_motion for s in samploranges)
+            # if not in_motion:
+            
+        else:
+            # Run the external REAPER checks only when the window is not focussed.
+            if root.focus_displayof() == None:
+                reaper_check_selected()
+                
                 if slow_counter >= slow_counter_max - 1:
                     reaper_check_selected_slow()
                     slow_counter = 0
@@ -1398,7 +1401,6 @@ def check_selected():
     if root.focus_displayof() == None:
         popup_close()
 
-    slow_counter = (slow_counter + 1) % slow_counter_max
     check_loop = root.after(100, check_selected)
 
 
@@ -1562,7 +1564,8 @@ def zoom(zoom):
     for samplorange in samploranges:
         samplorange.redraw()
     for note_widget in pianoroll_frame.winfo_children():
-        note_widget.configure(width=width_per_note - 2 - 2 * highlight)
+        note_widget.configure(width=width_per_note - 
+                              adjust_for_highlight * highlight)
 
     # Move the canvas view
     global scrollbar
@@ -1587,7 +1590,8 @@ def zoom_pianoroll(zoom):
     for samplorange in samploranges:
         samplorange.redraw()
     for note_widget in pianoroll_frame.winfo_children():
-        note_widget.configure(height=piano_roll_height - 2 - 2 * highlight)
+        note_widget.configure(height=piano_roll_height - 
+                              adjust_for_highlight * highlight)
 
 
 # # # Copy, paste and delete # # #
@@ -1804,7 +1808,7 @@ def copy_params(params):
 
     try:
         params_input = rp.reaper.get_user_inputs(
-            "What to copy - fill in anything to copy, leave empty to skip", params)
+            "Fill in anything to copy, leave empty to skip", params)
 
         if "Sample" in params_input:
             copy_fx_samples = True
@@ -1919,6 +1923,7 @@ def undo():
     with rp.inside_reaper():
         project = rp.Project()
         project.perform_action(40029) # Action ID for undo.
+    reaper_check_selected()
     reaper_check_selected_slow()
 
 def redo():
@@ -1926,6 +1931,7 @@ def redo():
     with rp.inside_reaper():
         project = rp.Project()
         project.perform_action(40030) # Action ID for redo.
+    reaper_check_selected()
     reaper_check_selected_slow()
 
 
@@ -1933,6 +1939,14 @@ def redo():
 
 # Send the MIDI note on the selected MIDI channel.
 def play_note(note, on, event=None):
+    # Color the pianoroll note accordingly.
+    black = (note % 12) in [1,3,6,8,10]
+    if on:
+        event.widget.configure(bg='gray' if black else 'lightgray')
+    else:
+        event.widget.configure(bg='black' if black else 'white')
+
+
     # Turn of all MIDI notes.
     note_all_off()
 
@@ -2275,9 +2289,12 @@ def guimain():
     scrollbar.pack(side="bottom", fill="x")
     canvas.pack(side="top", fill="both", expand=True)
 
+    # Setup the REAPER check loop.
+    reaper_check_selected()
+    check_loop = root.after(100, check_selected)
+
     # Start the GUI loop.
     root.after(10, lambda c=canvas: c.xview_moveto(36/128)) # Scroll the view to C2
-    check_loop = root.after(100, check_selected)
     root.update_idletasks()
     root.deiconify()
     root.protocol("WM_DELETE_WINDOW", close)
@@ -2288,8 +2305,8 @@ def guimain():
 def gui_pianoroll():
     global pixel, window, pianoroll_frame
 
-    w = width_per_note - 2 - 2 * highlight # (Tkinter's sizes are not exact)
-    h = piano_roll_height - 2 - 2 * highlight
+    w = width_per_note - adjust_for_highlight * highlight
+    h = piano_roll_height - adjust_for_highlight * highlight
 
     pianoroll_frame = tk.Frame(window)
     pianoroll_frame.pack(anchor = "w", side=tk.BOTTOM)
@@ -2300,20 +2317,23 @@ def gui_pianoroll():
         color = 'black' if black else 'white'
         fg_color = 'white' if black else 'black'
         select_color = 'gray' if black else 'lightgray'
-        note_button = tk.Button(pianoroll_frame,
+        note_button = tk.Label(pianoroll_frame,
                 image=pixel,
                 text=f"C{note//12-1}" if note % 12 == 0 else " ",
                 width=w, height=h,
                 padx=0, pady=0,
                 highlightthickness=highlight,
-                activebackground=select_color,
+                highlightbackground="#F0F0F0",
+                # highlightforeground='green',
+                # activebackground=select_color,
                 bd=0,
                 bg=color,
                 fg=fg_color,
-                command=lambda i=note: play_note(i, False),
+                # command=lambda i=note: play_note(i, False),
                 compound="c")
         note_button.grid(column=note, row=0)
         note_button.bind("<Button-1>", lambda e, i=note: play_note(i, True, e))
+        note_button.bind("<ButtonRelease-1>", lambda e, i=note: play_note(i, False, e))
 
         if tooltip_available:
             ToolTip(note_button, delay=tooltip_delay,
@@ -2323,17 +2343,25 @@ def gui_pianoroll():
 # # # Main # # #
 
 if __name__ == "__main__":
+    sep = "/"
+
     # Check system.
     if sys.platform.startswith('win32'):
         # TODO: check other platforms which also need this.
-        adjust_for_highlight = False
+        adjust_for_highlight = 2
+        sep = "\\"
 
     if rp.is_inside_reaper():
-        raise Exception("Please run `launch-sampler.py` to launch the "
-                        "multi-sampler from inside of REAPER.")
+        # raise Exception("Please run `launch-sampler.py` to launch the "
+        #                 "multi-sampler from inside of REAPER.")
         # Open itself as a new process.
-        # multisampler_process = subprocess.Popen(["python",  multisampler_script_path])
+        path = f"{sep}Scripts{sep}ReaSamplOmatic5000 Multi{sep}Sampler{sep}reasamplomatic_multi.py"
+        multisampler_process = subprocess.Popen(["python",  rp.reaper.get_resource_path() + path],
+                start_new_session=True, creationflags=
+                subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP)
     else:
+        rp.reconnect()
+
         # Setup the GUI.
         guimain()
 
