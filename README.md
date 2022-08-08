@@ -130,7 +130,7 @@ You should use the tkinter syntax for this (I think the present bindings should 
 
 
 ## Planned Features
- - [ ] Call "detect pitch" from the sampler. See [here](#no-automatic-pitch-detection).
+ - [ ] Call "detect pitch" from the sampler. See [here](#no-automatic-pitch-detection) for more information.
  - [ ] A way to save user settings without requiring them to edit the script
  - [ ] Shortcut to zoom to fit all note ranges.
  - [ ] Testing! There are probably still many bugs, so please let me know if you find any. 
