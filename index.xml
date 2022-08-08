@@ -161,7 +161,7 @@ SWS extension
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab [ ] Call "detect pitch" from the sampler. See {\field{\*\fldinst{HYPERLINK "#no-automatic-pitch-detection"}}{\fldrslt{\ul
 here
 }}}
-.\par}
+ for more information.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab [ ] A way to save user settings without requiring them to edit the script\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab [ ] Shortcut to zoom to fit all note ranges.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab [ ] Testing! There are probably still many bugs, so please let me know if you find any.\sa180\par}
