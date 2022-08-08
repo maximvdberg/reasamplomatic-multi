@@ -12,6 +12,7 @@
     * [Optional dependencies](#optional-dependencies)
     * [Getting the script](#getting-the-script)
 2. [Usage notes](#usage-notes)
+    * [Overview](#overview)
     * [Features list](#feature-list)
     * [Creating groups](#creating-groups)
     * [Copying parameters](#copying-parameters)
@@ -49,28 +50,30 @@ Alternatively, you can download the script from this repository, and run the it 
 
 ## Usage notes
 
-[will be written soon]
+### Overview 
 
-The multisampler will show all ReaSamplOmatic5000s from the selected track. Check `freeze` to stay on the selected track, and not follow the selection any more.
+After succesfull installation using ReaPack, you can find `Script: reasamplomatic_multi.py` in the action menu. Simply run it (setting a keyshortcut is recommended) to launch the sampler. Note that on Windows it migh take a while to start up. Alternatively, you can run the script outside of REAPER with Python. 
+
+After startup, the multi sampler will show all ReaSamplOmatic5000 instances on the selected track. Press `Add` to add one. Simply drag it with the mouse to move it, and drag the edges to resize. 
+
+Use ctrl+click to add items to the selection. Right click and drag for a nice and quick rectangle select. Hold alt to stretch the items.
+
+Right click anywhere to list a bunch of actions. Most actions will apply to your selection. 
+
+Options are available at the top of the window. If you installed `tktooltip` (which is recommended), they all have a short description. 
+For instance, check `freeze` to stay on the selected track, and not follow the selection any more. Check `sync` to disable syncing with REAPER, which might be [too slow on Windows](#performance-on-windows).
 
 ### Feature list
 
-A short list of features and usage notes:
+A short list of miscellaneous features:
 
- * __Adding instances__ The `Add` button adds an instance of ReaSamplOmatic5000 on all selected tracks. If no track is selected, it creates a new track.
- * __Moving__ Move note ranges by clicking and dragging.
- * __Resizing__ Click the range edges and drag to resize them.
- * __Selecting__ You can select and edit multiple ranges by holding `ctrl` and clicking, or by selecting multiple ranges with the right mouse button.
- * __Copy/paste/delete__ Press `ctrl+c` and `ctrl+v` for copy and paste respectively.  Press `delete` or `d` to delete the selection.
+ * __Zoom & resize__ Scroll the view with the mouse wheel, or click the middle mouse button and drag. Zoom with `ctrl+mousewheel`, or the `+` and `-` buttons. Zoom the piano roll with `alt+mousewheel`. The window is freely resizable (and you can change the default size in the script).
  * __Layering__ The note ranges align vertically such that they don't overlap. This allows for easy layering of multiple samples.
- * __Groups__ The multi-sampler integrates with MIDI routing in REAPER. See [creating groups](#creating-groups) for more information.
- * __Open FX window__ You can click on any range to open up its FX-window. Double click to also close the windows of all other groups.
- * __Scroll & zoom__ Scroll the view with the mouse wheel, or click the middle mouse button and drag. Zoom with `ctrl+mousewheel`, or the `+` and `-` buttons. Zoom the piano roll with `alt+mousewheel`. The window is freely resizable (you can change the default size in the script).
- * __MIDI__ You can click on the notes on the piano roll to send MIDI data to reaper. Velocity is dependent on the height of your mouse. Read the script for details on how to set it up.
- * __Obey note-offs__ You can select whether newly added instances should obey note-offs or not (useful for sampling drums)
- * __Shortcuts__ You can press `r` as a shortcut for `Refresh`, `a` for `Add`, and `s` for `Separate`. Press `c` to scroll the view to C2.
+ * __Groups__ The multi sampler integrates with MIDI routing in REAPER. See [creating groups](#creating-groups) for more information.
+ * __Parameter copy__ You can copy and paste specific parameters of the ReaSamplOmatic5000 instances. See [copying parameters](#copying-parameters) for more information.
+ * __MIDI__ You can click on the notes on the piano roll to send MIDI data to REAPER. Velocity is dependent on the height of your mouse.
  * __Defaults__ If you want, you can change some default values at the top of the script (short descriptions are given). You can change behaviour as well as appearance.
- * __Colors__ The multisampler also uses the track colors. You can set the alpha parameter at the top of the script to change how to colors are used.
+ * __Colors__ The multisampler also uses the track colors. You can set the `alpha` parameter at the top of the script to change how to colors are used.
 
 ### Creating groups
 
@@ -84,17 +87,51 @@ When the `Separate overlap` option is ticked, all ReaSamploMatic5000s with overl
 
 ### Copying parameters
 
-[will be written soon]
+The `Copy/paste params` actions lets you copy any parameters of a specific instance of ReaSamplOmatic5000 to a selection of instances. For instance, you can copy only the ADSR envelope, while leaving the other parameters unchanged.
 
+To start, select a single note range and right click to open the action menu. Then select `Copy/paste params`. Two sets are available:
+
+ - __sample__ concerning sample parameters, such as the ADSR, looping, etc.
+ - __note__ concerning note and MIDI parameters, concerning note ranges, playback pitch, etc.
+ 
+A popup will open where you can select which parameters to copy. Fill anything in for the fields you want to copy and simply leave the other ones empty. Afterwards you can select the target note ranges and use the `Paste params` action to copy the parameters to the selection. 
+ 
 ### Keyboard shortcuts
 
-[will be written soon]
+There are keyboard shortcuts for most actions. You can edit them and add more in the script file. 
+You should use the tkinter syntax for this (I think the present bindings should provide a good example for this).
+
+| Action               | Binding       |
+| -------------------- | ------------- |
+| add                  | `a`           |
+| refresh              | `r`           |
+| separate             | `g`           |
+| scroll center        | `z`           |
+| close ui             | `c`           |
+| undo                 | `ctrl+z`      |
+| redo                 | `ctrl+Z`      |
+| -------------------- | ------------- |
+| copy                 | `ctrl+c`, `y` |
+| paste                | `ctrl+v`, `p` |
+| delete               | `Delete`, `d` |
+| select all           | `ctrl+a`      |
+| -------------------- | ------------- |
+| solo toggle          | `m`           |
+| unsolo all           | `M`           |
+| mute toggle          | `s`           |
+| unmute all           | `S`           |
+| reset solo and mute  | `x`           |
+| -------------------- | ------------- |
+| params copy (sample) | `b`           |
+| params copy (note)   | `B`           |
+| params paste         | `n`           |
+
 
 ## Planned Features
- - [ ] Call "detect pitch" from the sampler
+ - [ ] Call "detect pitch" from the sampler, see [here](#no-automatic-pitch-detection).
  - [ ] A way to save user settings without requiring them to edit the script
-
-Testing! Especially on different platforms, which hasn't been done yet.
+ - [ ] Shortcut to zoom to fit all note ranges.
+ - [ ] Testing! 
 
 ## Limitations
 
@@ -115,6 +152,13 @@ This can be circumvented by disabling communication with REAPER whenever doing d
 The option `D&D REAPER` does precisely this: turn it on to enable drag-and-drop from inside of REAPER, at the cost of the multi sampler only being updated when the its window is focused.
 
 If you know a more elegant solution to this, let me know!
+
+#### Performance on Windows
+
+Performance on Windows is sadly not amazing. 
+Reapy uses Python sockets for communication with REAPER, which seem to be very slow on Windows. You'll notice REAPER regularly hanging for a bit, which is precisely when the multi sampler tries to sync with REAPER (if `D&D REAPER` is on, this happens when focusing the multi sampler window, as it then tries to sync with REAPER). I'm not an expert on this, perhaps someone knows how to make this faster. In any case, you can turn of `Sync` to disable automatic syncing with REAPER, and instead use the `Refresh` action (default shortcut is `r`).
+
+Additionally, the Tk implementation on Windows is very inefficient in comparison to other platforms. I found the responsiveness of dragging/resizing to be somewhat sluggish, and start up times are quite long.
 
 #### Flickering zoom
 
