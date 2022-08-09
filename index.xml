@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ReaSamplOmatic5000 Multi" commit="03df37db2c9515b4a2fe980f4eb44652b3146d0a">
+<index version="1" name="ReaSamplOmatic5000 Multi" commit="a477729fcd648b0a1f4fcb50e1b0749b25e0c349">
   <category name="Sampler">
     <reapack name="reasamplomatic_multi.py" type="script" desc="ReaSamplOmatic5000 multi">
       <metadata>
@@ -124,6 +124,7 @@ too slow on Windows
 {\pard \ql \f0 \sa180 \li0 \fi0 A short list of miscellaneous features:\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Zoom & resize} Scroll the view with the mouse wheel, or click the middle mouse button and drag. Zoom with {\f1 ctrl+mousewheel}, or the {\f1 +} and {\f1 -} buttons. Zoom the piano roll with {\f1 alt+mousewheel}. The window is freely resizable (and you can change the default size in the script).\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Layering} The note ranges align vertically such that they don't overlap. This allows for easy layering of multiple samples.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Syncing} The multi sampler will automatically reflect changes in REAPER, such as renaming of tracks and ReaSamplOmatic5000 instances. Some changes (that take much longer to check) are only updated on refocusing the multi sampler window.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Groups} The multi sampler integrates with MIDI routing in REAPER. See {\field{\*\fldinst{HYPERLINK "#creating-groups"}}{\fldrslt{\ul
 creating groups
 }}}
@@ -179,7 +180,8 @@ in this thread
 {\pard \ql \f0 \sa180 \li0 \fi0 The option {\f1 D&D REAPER} does precisely this: turn it on to enable drag-and-drop from inside of REAPER, at the cost of the multi sampler only being updated when its window is focused.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 If you know a more elegant solution to this, let me know!\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs24 Performance on Windows\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Performance on Windows is sadly not amazing. Reapy uses Python sockets for communication with REAPER, which seem to be very slow on Windows. You'll notice REAPER regularly hanging for a bit, which is precisely when the multi sampler tries to sync with REAPER (if {\f1 D&D REAPER} is on, this happens when focusing the multi sampler window, as it then tries to sync with REAPER). I'm not an expert on this, perhaps someone knows how to make this faster. In any case, you can turn of {\f1 Sync} to disable automatic syncing with REAPER, and instead use the {\f1 Refresh} action (default shortcut is {\f1 r}).\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Performance on Windows is sadly not amazing. Reapy uses Python sockets for communication with REAPER, which seem to be quite slow on Windows. If you notice REAPER becoming laggy when having the multi sampler active, this is most likely due to the automatic syncing with REAPER. To solve this, you can turn off the {\f1 Sync} option to disable this, and instead manually use the {\f1 Refresh} action (default shortcut is {\f1 r}) whenever you need it.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 It is also recommended you turn off {\i Audio/Close audio device when stopped and application is inactive} in the REAPER preferences. Otherwise, REAPER will stop the audio device when focusing the multi sampler window, which can take quite some time.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 Additionally, the Tk implementation on Windows is very inefficient in comparison to other platforms. I found the responsiveness of dragging/resizing to be somewhat sluggish, and start up times are quite long.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs24 Flickering zoom\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 There is some flickering while zooming. I'm pretty sure this is a limitation on how tkinter works, as I don't think it is impossible to pause the render callback during resizing. Please tell me if you know of a way to circumvent this!\par}
