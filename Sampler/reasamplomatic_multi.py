@@ -75,6 +75,10 @@ allow_reaper_drag_and_drop = 0 # Since drag-and-dropping anything from REAPER fr
                                # but will only switch tracks when selecting the multi-sampler.
                                # A more elegant solution is W.I.P.
 
+sync_with_reaper = 0           # If this is turned off, no automatic syncing is done with REAPER
+                               # anymore. To reflect changes done in REAPER you need to manually
+                               # use the `refresh' action.
+
 default_multisampler_name = "Multi-Sampler" # Name of the created multi-sampler track.
 default_fx_name = "ReaSamplOmatic5000"      # Default name of the FX instances.
 
@@ -106,6 +110,7 @@ highlight_color = "#e0e0e0"     # Color of the highlights
 solo_prefix = "[S] "  # Text indicators for solo and mute.
 mute_prefix = "[M] "
 name_by_general_midi_nocaps = 1  # Whether to capitalize the general MIDI note names.
+default_color = "#77ff77"        # Color to use when parsing a track with the default color.
 
 # Configuration options - Defaults in REAPER/SamplOmatic5000.
 gain_for_minimum_velocity = 0.03162277489900589 # "Min vol" in REAPER.
@@ -189,6 +194,9 @@ total_notes = 128
 def rgb(rgb, a = 1):
     return "#%02x%02x%02x" % (int(rgb[0]*a), int(rgb[1]*a), int(rgb[2]*a))
 
+def rgb2tuple(t):
+    return (eval(f"0x{t[1:3]}"), eval(f"0x{t[3:5]}"), eval(f"0x{t[5:7]}"))
+
 # The main note range class.
 class SamploRange():
     def __init__(self, window, fx, color=(255, 255, 255), note_start=-1, note_end=-1, name=None):
@@ -215,11 +223,11 @@ class SamploRange():
         # Create the moveable widget.
         global alpha
         font = tkfont.Font(size=8)
-        self.color = color
+        self.color = color if color != (0, 0, 0) else rgb2tuple(default_color)
         self.widget = tk.Canvas(self.window,
                                 highlightthickness=highlight,
-                                highlightbackground=rgb(color),
-                                bg=rgb(color, alpha),
+                                highlightbackground=rgb(self.color),
+                                bg=rgb(self.color, alpha),
                                 bd=0)
         self.widget.bind("<B1-Motion>", self.mouse)
         self.widget.bind("<ButtonRelease-1>", self.button_release)
@@ -303,7 +311,7 @@ class SamploRange():
         if self.mute and not self.solo:
             color = (70, 70, 70)
         else:
-            color = self.color
+            color = self.color if self.color != (0, 0, 0) else rgb2tuple(default_color)
         if self.selected:
             color_hex = rgb(color, alpha_selected)
         else:
@@ -1051,7 +1059,7 @@ def init(insert_at_cursor=False):
         project = rp.Project()
 
         # Set all selected tracks. Of none are selected, create a new one.
-        tracks = project.selected_tracks
+        tracks = project.selected_tracks if not freeze.get() else [current_track]
         if len(tracks) == 0:
             tracks = [project.add_track()]
             tracks[0].name = default_multisampler_name
@@ -1073,6 +1081,7 @@ def init(insert_at_cursor=False):
 
 def refresh():
     rp.reconnect()
+    reaper_check_selected()
     parse_current()
 
 
@@ -1373,7 +1382,9 @@ slow_counter_max = 10
 def check_selected():
     global root, current_track, freeze, slow_counter, samploranges
 
-    if not freeze.get():
+    if sync_with_reaper.get():
+        print("sync")
+
         # If not focused, up the counter.
         if root.focus_displayof() == None:
             slow_counter += 1
@@ -1441,29 +1452,31 @@ def reaper_check_selected():
     tracks = project.selected_tracks
     n_tracks = len(tracks)
 
-    # Only show track info is precisely one is selected.
-    if n_tracks != 1:
-        current_track = None
-        track_name_text.set("")
-        last_touched = None
+    # Check for track changes if not frozen.
+    if not freeze.get():
+        # Only show track info is precisely one is selected.
+        if n_tracks != 1:
+            current_track = None
+            track_name_text.set("")
+            last_touched = None
 
-        # Remove the previous track info.
-        for r in samploranges:
-            r.widget.destroy();
-            if r.tooltip:
-                r.tooltip.destroy()
-        samploranges = []
-        render_groups = []
+            # Remove the previous track info.
+            for r in samploranges:
+                r.widget.destroy();
+                if r.tooltip:
+                    r.tooltip.destroy()
+            samploranges = []
+            render_groups = []
 
-        return
+            return
 
-    # Check if the track has changed.
-    if current_track != tracks[0]:
-        current_track = tracks[0]
-        track_name_text.set(str(current_track.name).strip())
+        # Check if the track has changed.
+        if current_track != tracks[0]:
+            current_track = tracks[0]
+            track_name_text.set(str(current_track.name).strip())
 
-        parse_current()
-        return
+            parse_current()
+            return
 
     # Check for ReaSamplOmatic5000 changes
     global alpha
@@ -2028,15 +2041,18 @@ def guimain():
     btn_zoom_out.grid(column=(grid_index := grid_index + 1), row=0,
                       padx=4, pady=4)
     if tooltip_available:
-        ToolTip(btn_zoom_in, msg="Zoom in", delay=tooltip_delay)
-        ToolTip(btn_zoom_out, msg="Zoom out", delay=tooltip_delay)
+        ToolTip(btn_zoom_in, msg="Zoom in.\n\nAlternatively, hold ctrl and scroll.", 
+                delay=tooltip_delay)
+        ToolTip(btn_zoom_out, msg="Zoom out.\n\nAlternatively, hold ctrl and scroll.", 
+                delay=tooltip_delay)
 
     # Create the checkboxes.
     global create_pitched, create_bus_on_separate, freeze, allow_reaper_drag_and_drop, \
-           separate_overlap, name_by_general_midi
+           separate_overlap, name_by_general_midi, sync_with_reaper
     create_pitched             = tk.IntVar(value=create_pitched)
     create_bus_on_separate     = tk.IntVar(value=create_bus_on_separate)
     freeze                     = tk.IntVar(value=freeze)
+    sync_with_reaper           = tk.IntVar(value=sync_with_reaper)
     allow_reaper_drag_and_drop = tk.IntVar(value=allow_reaper_drag_and_drop)
     separate_overlap           = tk.IntVar(value=separate_overlap)
     name_by_general_midi       = tk.IntVar(value=name_by_general_midi)
@@ -2046,6 +2062,13 @@ def guimain():
     check_row = 0
     checks = [("Freeze", freeze,
                   "When set, don't change tracks when changing selection"),
+              ("Sync", sync_with_reaper,
+                  "If this is turned off, no automatic syncing is done with REAPER "
+                  "anymore. To reflect changes done in REAPER, such as renaming "
+                  "and rerouting, you need to manually use the `refresh' action."
+                  "\n\nIf you notice REAPER hang once in a while turning this off "
+                  "might be a good idea. Especially on Windows syncing can be very "
+                  "slow."),
               sep,
               ("D&D REAPER", allow_reaper_drag_and_drop,
                   "When set, allow drag and drop from the REAPER media explorer. "
@@ -2124,6 +2147,10 @@ def guimain():
                     "\n"
                     "Right click+drag for rectangle select.\n"
                     "Hold ctrl to add to selection.\n"
+                    "\n"
+                    "Hold ctrl and scroll to zoom. You can \n"
+                    "also change the piano roll size if you \n"
+                    "hover over it.\n"
                     "\n"
                     "Right click to open the action menu.\n"
                     " - Most actions apply to the selection,\n"
