@@ -171,7 +171,11 @@ here
 here
 }}}
  | | params copy (note) | {\f1 B} | As above, but a different set. | | params paste | {\f1 n} | Paste parameters. |\par}
+<<<<<<< HEAD
 {\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel1 \b \fs32 Planned Features\par}
+=======
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Planned Features\par}
+>>>>>>> cc2790f7ee7f770c0f5bc7fd673b2cc5719bab02
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab [ ] Call "detect pitch" from the sampler. See {\field{\*\fldinst{HYPERLINK "#no-automatic-pitch-detection"}}{\fldrslt{\ul
 here
 }}}
