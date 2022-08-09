@@ -3,15 +3,19 @@
   <category name="Sampler">
     <reapack name="reasamplomatic_multi.py" type="script" desc="ReaSamplOmatic5000 multi">
       <metadata>
-        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
+<<<<<<< HEAD
 {\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 ReaSamploMatic5000 multi\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 A REAPER script for arranging multiple ReaSamplOmatic5000 instances on a piano roll, made using reapy and tkinter. For detailed instructions, consult the {\field{\*\fldinst{HYPERLINK "https://github.com/maximvdberg/reasamplomatic-multi"}}{\fldrslt{\ul
 readme
 }}}
 . Some configuration options are available, see the script for more information.\par}
+=======
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 ReaSamploMatic5000 multi\par}
+>>>>>>> 049032b7135bc1060c23ab108621ac6eace11f7e
 }
 ]]></description>
         <link rel="website" href="https://github.com/maximvdberg/reasamplomatic-multi">GitHub repository</link>
