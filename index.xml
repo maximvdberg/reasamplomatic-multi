@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ReaSamplOmatic5000 Multi" commit="37041ee5e0943404a68236c93ce1fe8b60e0b9c2">
+<index version="1" name="ReaSamplOmatic5000 Multi" commit="64a0049f4d9222129b1997fec1cd629c3ca27aa2">
   <category name="Sampler">
     <reapack name="reasamplomatic_multi.py" type="script" desc="ReaSamplOmatic5000 multi">
       <metadata>
-        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 ReaSamploMatic5000 multi\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 ReaSamploMatic5000 multi\par}
 }
 ]]></description>
       </metadata>
