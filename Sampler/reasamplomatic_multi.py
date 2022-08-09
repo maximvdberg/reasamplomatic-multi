@@ -2437,10 +2437,12 @@ if __name__ == "__main__":
     sep = "/"
 
     # Check system.
+    creationflags = 0
     if sys.platform.startswith('win32'):
         # TODO: check other platforms which also need this.
         adjust_for_highlight = 2
         sep = "\\"
+        creationflags = subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP
 
     if rp.is_inside_reaper():
         # raise Exception("Please run `launch-sampler.py` to launch the "
@@ -2448,8 +2450,7 @@ if __name__ == "__main__":
         # Open itself as a new process.
         path = f"{sep}Scripts{sep}ReaSamplOmatic5000 Multi{sep}Sampler{sep}reasamplomatic_multi.py"
         multisampler_process = subprocess.Popen(["python",  rp.reaper.get_resource_path() + path],
-                start_new_session=True, creationflags=
-                subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP)
+                start_new_session=True, creationflags=creationflags)
     else:
         rp.reconnect()
 
