@@ -69,7 +69,8 @@ A short list of miscellaneous features:
 
  * __Zoom & resize__ Scroll the view with the mouse wheel, or click the middle mouse button and drag. Zoom with `ctrl+mousewheel`, or the `+` and `-` buttons. Zoom the piano roll with `alt+mousewheel`. The window is freely resizable (and you can change the default size in the script).
  * __Layering__ The note ranges align vertically such that they don't overlap. This allows for easy layering of multiple samples.
- * __Syncing__ The multi sampler will automatically reflect changes in REAPER, such as renaming of tracks and ReaSamplOmatic5000 instances. Some changes (that take much longer to check) are only updated on refocusing the multi sampler window.
+ * __Syncing__ The multi sampler will automatically reflect changes in REAPER, such as renaming of tracks and ReaSamplOmatic5000 instances. Some changes (that take much longer to check) are only updated on refocusing the multi sampler window. 
+ * __Pitched__ By setting the `Pitched` option, newly added ReaSamplOmatic5000's are set to the `Note (Semitone shifted)` mode, instead of `Sample (Ignores MIDI note)`, and `Obey note-offs` is enabled. Enable this option when adding pitched samples, and disable when adding (unpitched) percussion. Unfortunately, you still [need to click the detect pitch button](#no-automatic-pitch-detection).
  * __Groups__ The multi sampler integrates with MIDI routing in REAPER. See [creating groups](#creating-groups) for more information.
  * __Parameter copy__ You can copy and paste specific parameters of the ReaSamplOmatic5000 instances. See [copying parameters](#copying-parameters) for more information.
  * __Drag and drop__ You can drag and drop samples into the window. Note that to drag and drop from the REAPER media explorer, you need to enable the `D&D REAPER` option. Go [here](#drag-and-drop-from-inside-reaper) to find out why.
@@ -104,30 +105,38 @@ A popup will open where you can select which parameters to copy. Fill anything i
 There are keyboard shortcuts for most actions. You can edit them and add more in the script file. 
 You should use the tkinter syntax for this (I think the present bindings should provide a good example).
 
-| Action               | Binding       |
-| -------------------- | ------------- |
-| add                  | `a`           |
-| refresh              | `r`           |
-| separate             | `g`           |
-| scroll to center     | `z`           |
-| close instance ui    | `c`           |
-| undo                 | `ctrl+z`      |
-| redo                 | `ctrl+Z`      |
-|                      |               |
-| copy                 | `ctrl+c`, `y` |
-| paste                | `ctrl+v`, `p` |
-| delete               | `Delete`, `d` |
-| select all           | `ctrl+a`      |
-|                      |               |
-| solo toggle          | `m`           |
-| unsolo all           | `M`           |
-| mute toggle          | `s`           |
-| unmute all           | `S`           |
-| reset solo and mute  | `x`           |
-|                      |               |
-| params copy (sample) | `b`           |
-| params copy (note)   | `B`           |
-| params paste         | `n`           |
+| Action               | Binding       | Description                                      |
+| -------------------- | ------------- | ------------------------------------------------ |
+| add                  | `a`           | Add a ReaSamplOmatic5000 instance                |
+| refresh              | `r`           | Resync with REAPER                               |
+| separate             | `g`           | Separate selection, see [here](#creating-groups) |
+| scroll to center     | `z`           | Scroll the view to C2                            |
+| close instance ui    | `c`           | Close the FX windows of selection                |
+| undo                 | `ctrl+z`      | Call _undo_ inside REAPER                        |
+| redo                 | `ctrl+Z`      | Call _redo_ inside REAPER                        |
+|                      |               |                                                  |
+| freeze               | `f`           | Toggles the `Freeze` option                      |
+| dnd_reaper           | `q`           | Toggles the `D&D REAPER` option                  |
+| sync                 |               | Toggles the `Sync` option                        |
+| pitched              | `w`           | Toggles the `Pitched` option                     |
+| name_by_midi         |               | Toggles the `Name by MIDI` option                |
+| create_bus           |               | Toggles the `Create bus` option                  |
+| separate_overlap     | `e`           | Toggles the `Separate overlap` option            |
+|                      |               |                                                  |
+| copy                 | `ctrl+c`, `y` | Copy selection                                   |
+| paste                | `ctrl+v`, `p` | Paste selection                                  |
+| delete               | `Delete`, `d` | Delete selection                                 |
+| select all           | `ctrl+a`      | Select all note ranges                           |
+|                      |               |                                                  |
+| solo toggle          | `m`           | Solo selection                                   |
+| unsolo all           | `M`           | Unsolo selection                                 |
+| mute toggle          | `s`           | Mute selection                                   |
+| unmute all           | `S`           | Unmute selection                                 |
+| reset solo and mute  | `x`           | Unmute and unsolo all note ranges                |
+|                      |               |                                                  |
+| params copy (sample) | `b`           | Copy parameters, see [here](#copying-parameters) |
+| params copy (note)   | `B`           | As above, but a different set.                   |
+| params paste         | `n`           | Paste parameters.                                |
 
 
 ## Planned Features

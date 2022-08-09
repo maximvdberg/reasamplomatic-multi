@@ -126,6 +126,15 @@ keys_close_ui = ['c']
 keys_undo = ['Control-z']
 keys_redo = ['Control-Z']
 
+# Options
+keys_freeze = ['f']
+keys_dnd_reaper = ['q']
+keys_sync = []
+keys_pitched = ['w']
+keys_name_by_midi = []
+keys_create_bus = []
+keys_separate_overlap = ['e']
+
 # Copy, paste and delete bindings
 keys_copy = ['Control-c', 'y']
 keys_paste = ['Control-v', 'p']
@@ -1270,12 +1279,19 @@ def drop_leave(event):
     return event.action
 
 def drop(event):
-    global samploranges_drag, current_track
+    global samploranges_drag, current_track, root
 
     if not current_track:
-        return
+        return event.action
 
-    # Add the samplomatic in REAPER.
+    # Add the note ranges in REAPER.
+    root.after(50, drop_reaper)
+    return event.action
+
+@rp.inside_reaper()
+def drop_reaper():
+    global samploranges_drag, current_track
+
     for srange in samploranges_drag:
         srange.color = current_track.color
         add_in_reaper(srange, current_track, srange.start,
@@ -1285,7 +1301,7 @@ def drop(event):
         srange.redraw()
     samploranges_drag = None
 
-    return event.action
+    
 
 
 
@@ -1380,13 +1396,15 @@ def parse_current(no_reset=False):
 slow_counter = 0
 slow_counter_max = 10
 def sync():
-    global root, current_track, freeze, slow_counter, samploranges
+    global root, current_track, freeze, slow_counter, samploranges, samploranges_drag
+    into_focus = False
 
-    if sync_with_reaper.get():
+    if sync_with_reaper.get() and samploranges_drag == None:
         # Run the slow reaper check when the window comes into focus.
         if root.focus_displayof() != None and slow_counter > 0:
             reaper_sync_slow()
             slow_counter = 0
+            into_focus = True
 
         # If not focused, up the counter.
         if root.focus_displayof() == None:
@@ -1395,9 +1413,10 @@ def sync():
         # Run the quicker REAPER check depending on whether dnd is enabled.
         if allow_reaper_drag_and_drop.get():
             # Run the external REAPER checks only when the window come into focus.
-            reaper_sync()
+            if into_focus:
+                reaper_sync()
         else:
-            # Run the external REAPER checks only when the window is not focussed.
+            # Run the external REAPER checks only when the window is not focused.
             if root.focus_displayof() == None:
                 reaper_sync()
 
@@ -1515,16 +1534,18 @@ def reaper_sync_slow():
     # were added or removed.
     if not no_routing_or_fx_change(current_track, current_track_routing):
         parse_current()
-    else:    
+    elif False: # Disabled: too slow on Windows and not necessary.    
         # Check for note range changes.
         for srange in samploranges:
             is_different = False
-            start = round(srange.fx.params["Note range start"] * 127)
+
+            params = srange.fx.params
+            start = round(params["Note range start"] * 127)
             if srange.start != start:
                 srange.start = start
                 is_different = True
 
-            end = round(srange.fx.params["Note range end"] * 127)
+            end = round(params["Note range end"] * 127)
             if srange.end != end:
                 srange.end = end
                 is_different = True
@@ -2073,7 +2094,7 @@ def guimain():
                   "this window is then only updated when it is in focus." ),
               ("Pitched", create_pitched,
                   "When set, newly added ReaSamplOmatic5000's are set to the "
-                  "`Note (Semitone shifted)` mode, instead of 'Sample "
+                  "`Note (Semitone shifted)` mode, instead of `Sample "
                   "(Ignores MIDI note)`. \nAlso, `Obey note-offs` is enabled."
                   "\n\nEnable this option when adding pitched samples, and disable "
                   "when adding (unpitched) percussion."
@@ -2203,6 +2224,33 @@ def guimain():
         canvas.bind_all(f"<{k}>", lambda e: redo())
 
     window.bind("<Button-1>", lambda e: deselect_all())
+
+    # Option toggles.
+    for k in keys_freeze:
+        canvas.bind_all(f"<{k}>", 
+            lambda e: freeze.set(not freeze.get()))
+    for k in keys_dnd_reaper:
+        canvas.bind_all(f"<{k}>", 
+            lambda e: allow_reaper_drag_and_drop.set(
+                not allow_reaper_drag_and_drop.get()))
+    for k in keys_sync:
+        canvas.bind_all(f"<{k}>", 
+            lambda e: sync_with_reaper.set(not sync_with_reaper.get()))
+    for k in keys_pitched:
+        canvas.bind_all(f"<{k}>", 
+            lambda e: create_pitched.set(not create_pitched.get()))
+    for k in keys_name_by_midi:
+        canvas.bind_all(f"<{k}>", 
+            lambda e: name_by_general_mid.set(
+                not name_by_general_mid.get()))
+    for k in keys_create_bus:
+        canvas.bind_all(f"<{k}>", 
+            lambda e: create_bus_on_separate.set(
+                not create_bus_on_separate.get()))
+    for k in keys_separate_overlap:
+        canvas.bind_all(f"<{k}>", 
+            lambda e: separate_overlap.set(
+                not separate_overlap.get()))
 
     # Copy, paste and delete bindings.
     for k in keys_copy:
