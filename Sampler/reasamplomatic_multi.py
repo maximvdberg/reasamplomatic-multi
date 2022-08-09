@@ -75,7 +75,7 @@ allow_reaper_drag_and_drop = 0 # Since drag-and-dropping anything from REAPER fr
                                # but will only switch tracks when selecting the multi-sampler.
                                # A more elegant solution is W.I.P.
 
-sync_with_reaper = 0           # If this is turned off, no automatic syncing is done with REAPER
+sync_with_reaper = 1           # If this is turned off, no automatic syncing is done with REAPER
                                # anymore. To reflect changes done in REAPER you need to manually
                                # use the `refresh' action.
 
@@ -1383,8 +1383,6 @@ def check_selected():
     global root, current_track, freeze, slow_counter, samploranges
 
     if sync_with_reaper.get():
-        print("sync")
-
         # If not focused, up the counter.
         if root.focus_displayof() == None:
             slow_counter += 1
