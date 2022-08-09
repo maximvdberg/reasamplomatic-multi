@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ReaSamplOmatic5000 Multi" commit="5caf964794b028f7e7d61d91acb59d7edd331228">
+<index version="1" name="ReaSamplOmatic5000 Multi" commit="03df37db2c9515b4a2fe980f4eb44652b3146d0a">
   <category name="Sampler">
     <reapack name="reasamplomatic_multi.py" type="script" desc="ReaSamplOmatic5000 multi">
       <metadata>
@@ -162,7 +162,7 @@ SWS extension
 here
 }}}
  for more information.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab [ ] A way to save user settings without requiring them to edit the script\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab [ ] A way to save user settings without requiring them to edit the script.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab [ ] Shortcut to zoom to fit all note ranges.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab [ ] Testing! There are probably still many bugs, so please let me know if you find any.\sa180\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Limitations\par}
