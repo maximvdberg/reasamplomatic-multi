@@ -1,23 +1,18 @@
 # @description ReaSamplOmatic5000 multi
-# @version 1.0.1
+# @version 1.1
 # @author maxim
 # @about
 #   # ReaSamploMatic5000 multi
-
 #   A REAPER script for arranging multiple ReaSamplOmatic5000
 #   instances on a piano roll, made using reapy and tkinter.
-#
 #   For detailed instructions, consult the
 #   [readme](https://github.com/maximvdberg/reasamplomatic-multi).
-#
 #   Some configuration options are available, see the script
 #   for more information.
 # @links
-#   GitHub repository github.com/maximvdberg/samplomatic5000-multi
+#   GitHub repository https://github.com/maximvdberg/reasamplomatic-multi
 # @screenshot
 #   Window https://imgur.com/iUySLMr
-# @provides
-#    reasamplomatic-multi/midi_drumkit.py
 # @changelog
 #   Improved performance on Windows
 #   Added a `Sync` option
