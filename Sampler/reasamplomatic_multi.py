@@ -463,7 +463,7 @@ class SamploRange():
     # On button release, reset moving/resizing parameters, and update
     # REAPER. Also set this instance to the last touched range.
     def button_release(self, event=None):
-        if event:
+        if event and not self.in_motion:
             self.show()
 
         root.config(cursor="arrow")
@@ -1081,7 +1081,7 @@ def init(insert_at_cursor=False):
 
 def refresh():
     rp.reconnect()
-    reaper_check_selected()
+    reaper_sync()
     parse_current()
 
 
@@ -1379,38 +1379,33 @@ def parse_current(no_reset=False):
 # Check if the selection has changed, and loop.
 slow_counter = 0
 slow_counter_max = 10
-def check_selected():
+def sync():
     global root, current_track, freeze, slow_counter, samploranges
 
     if sync_with_reaper.get():
+        # Run the slow reaper check when the window comes into focus.
+        if root.focus_displayof() != None and slow_counter > 0:
+            reaper_sync_slow()
+            slow_counter = 0
+
         # If not focused, up the counter.
         if root.focus_displayof() == None:
             slow_counter += 1
 
+        # Run the quicker REAPER check depending on whether dnd is enabled.
         if allow_reaper_drag_and_drop.get():
             # Run the external REAPER checks only when the window come into focus.
-            if root.focus_displayof() != None and slow_counter > 0:
-                reaper_check_selected()
-                reaper_check_selected_slow()
-                slow_counter = 0
-
-            # in_motion = any(s.in_motion for s in samploranges)
-            # if not in_motion:
-            
+            reaper_sync()
         else:
             # Run the external REAPER checks only when the window is not focussed.
             if root.focus_displayof() == None:
-                reaper_check_selected()
-                
-                if slow_counter >= slow_counter_max - 1:
-                    reaper_check_selected_slow()
-                    slow_counter = 0
+                reaper_sync()
 
     # Necessary on some systems to close the popup menu.
     if root.focus_displayof() == None:
         popup_close()
 
-    check_loop = root.after(100, check_selected)
+    check_loop = root.after(100, sync)
 
 
 # Recusively checks if the routing is still correct and if all tracks
@@ -1443,7 +1438,7 @@ def no_routing_or_fx_change(track, routing):
 
 
 @rp.inside_reaper()
-def reaper_check_selected():
+def reaper_sync():
     global current_track, samploranges, track_name_text
 
     project = rp.Project()
@@ -1478,13 +1473,14 @@ def reaper_check_selected():
 
     # Check for ReaSamplOmatic5000 changes
     global alpha
+    soloing = any(s.solo for s in samploranges)
     for srange in samploranges:
         if srange.fx == None:
             continue
 
         # Check for track color changes.
         color = srange.fx.parent.color
-        if srange.color != color:
+        if color != (0, 0, 0) and srange.color != color:
             srange.color = color
             srange.widget.configure(highlightbackground=rgb(color),
                                     bg=rgb(color, alpha))
@@ -1493,34 +1489,6 @@ def reaper_check_selected():
         if srange.current_name != srange.fx.name:
             srange.current_name = None
             srange.draw_name()
-
-# Check for changes in REAPER which take a bit more time.
-# Only called when not interacting with the UI.
-@rp.inside_reaper()
-def reaper_check_selected_slow():
-    global current_track, current_track_routing, samploranges
-
-    if not current_track:
-        return
-
-    # Check for track routing changes and if any ReaSamplOmatic5000's
-    # were added or removed.
-    if not no_routing_or_fx_change(current_track, current_track_routing):
-        parse_current()
-
-    soloing = any(s.solo for s in samploranges)
-    for srange in samploranges:
-        is_different = False
-        # Check for note range changes.
-        start = round(srange.fx.params["Note range start"] * 127)
-        if srange.start != start:
-            srange.start = start
-            is_different = True
-
-        end = round(srange.fx.params["Note range end"] * 127)
-        if srange.end != end:
-            srange.end = end
-            is_different = True
 
         # Check bypass changes.
         if soloing:
@@ -1532,9 +1500,39 @@ def reaper_check_selected_slow():
             if srange.fx.is_enabled == srange.mute:
                 srange.set_mute(srange.mute)
 
-        # Redraw if necessary.
-        if is_different:
-            srange.redraw()
+
+
+# Check for changes in REAPER which take a bit more time.
+# Only called when not interacting with the UI.
+@rp.inside_reaper()
+def reaper_sync_slow():
+    global current_track, current_track_routing, samploranges
+
+    if not current_track:
+        return
+
+    # Check for track routing changes and if any ReaSamplOmatic5000's
+    # were added or removed.
+    if not no_routing_or_fx_change(current_track, current_track_routing):
+        parse_current()
+    else:    
+        # Check for note range changes.
+        for srange in samploranges:
+            is_different = False
+            start = round(srange.fx.params["Note range start"] * 127)
+            if srange.start != start:
+                srange.start = start
+                is_different = True
+
+            end = round(srange.fx.params["Note range end"] * 127)
+            if srange.end != end:
+                srange.end = end
+                is_different = True
+
+            # Redraw if necessary.
+            if is_different:
+                srange.redraw()
+
 
 
 # # # Event handling - window resize and zoom # # #
@@ -1858,7 +1856,7 @@ def paste_params():
                 i += 1
 
 
-    reaper_check_selected_slow()
+    reaper_sync_slow()
 
 # # # Popup menu # # #
 
@@ -1934,16 +1932,16 @@ def undo():
     with rp.inside_reaper():
         project = rp.Project()
         project.perform_action(40029) # Action ID for undo.
-    reaper_check_selected()
-    reaper_check_selected_slow()
+    reaper_sync()
+    reaper_sync_slow()
 
 def redo():
     global root
     with rp.inside_reaper():
         project = rp.Project()
         project.perform_action(40030) # Action ID for redo.
-    reaper_check_selected()
-    reaper_check_selected_slow()
+    reaper_sync()
+    reaper_sync_slow()
 
 
 # # # MIDI routing # # #
@@ -2315,8 +2313,8 @@ def guimain():
     canvas.pack(side="top", fill="both", expand=True)
 
     # Setup the REAPER check loop.
-    reaper_check_selected()
-    check_loop = root.after(100, check_selected)
+    reaper_sync()
+    check_loop = root.after(100, sync)
 
     # Start the GUI loop.
     root.after(10, lambda c=canvas: c.xview_moveto(36/128)) # Scroll the view to C2

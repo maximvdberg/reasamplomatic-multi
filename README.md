@@ -23,7 +23,7 @@
 
 ## Dependencies and Installation
 
-You need to install `reapy` and `tkinter` for the program to work. To install `reapy`, see the instructions over [here](https://github.com/RomeoDespres/reapy#installation). Make sure you have Python installed and that it is detected by REAPER. `tkinter` should be installed by default.
+You need to install `reapy` and `tkinter` for the program to work. To install `reapy`, see the instructions over [here](https://github.com/RomeoDespres/reapy#installation). Make sure you have Python installed and that it is detected by REAPER. `tkinter` should be installed by default. 
 
 ### Optional dependencies
 
@@ -69,6 +69,7 @@ A short list of miscellaneous features:
 
  * __Zoom & resize__ Scroll the view with the mouse wheel, or click the middle mouse button and drag. Zoom with `ctrl+mousewheel`, or the `+` and `-` buttons. Zoom the piano roll with `alt+mousewheel`. The window is freely resizable (and you can change the default size in the script).
  * __Layering__ The note ranges align vertically such that they don't overlap. This allows for easy layering of multiple samples.
+ * __Syncing__ The multi sampler will automatically reflect changes in REAPER, such as renaming of tracks and ReaSamplOmatic5000 instances. Some changes (that take much longer to check) are only updated on refocusing the multi sampler window.
  * __Groups__ The multi sampler integrates with MIDI routing in REAPER. See [creating groups](#creating-groups) for more information.
  * __Parameter copy__ You can copy and paste specific parameters of the ReaSamplOmatic5000 instances. See [copying parameters](#copying-parameters) for more information.
  * __Drag and drop__ You can drag and drop samples into the window. Note that to drag and drop from the REAPER media explorer, you need to enable the `D&D REAPER` option. Go [here](#drag-and-drop-from-inside-reaper) to find out why.
@@ -158,7 +159,9 @@ If you know a more elegant solution to this, let me know!
 #### Performance on Windows
 
 Performance on Windows is sadly not amazing. 
-Reapy uses Python sockets for communication with REAPER, which seem to be very slow on Windows. You'll notice REAPER regularly hanging for a bit, which is precisely when the multi sampler tries to sync with REAPER (if `D&D REAPER` is on, this happens when focusing the multi sampler window, as it then tries to sync with REAPER). I'm not an expert on this, perhaps someone knows how to make this faster. In any case, you can turn of `Sync` to disable automatic syncing with REAPER, and instead use the `Refresh` action (default shortcut is `r`).
+Reapy uses Python sockets for communication with REAPER, which seem to be quite slow on Windows. If you notice REAPER becoming laggy when having the multi sampler active, this is most likely due to the automatic syncing with REAPER. To solve this, you can turn off the `Sync` option to disable this, and instead manually use the `Refresh` action (default shortcut is `r`) whenever you need it.
+
+It is also recommended you turn off _Audio/Close audio device when stopped and application is inactive_ in the REAPER preferences. Otherwise, REAPER will stop the audio device when focusing the multi sampler window, which can take quite some time.
 
 Additionally, the Tk implementation on Windows is very inefficient in comparison to other platforms. I found the responsiveness of dragging/resizing to be somewhat sluggish, and start up times are quite long.
 
