@@ -87,7 +87,7 @@ You can select any of these tracks and use the multi sampler on them individuall
 
 When the `Create bus` option is ticked, an additional bus track is created. You can make a folder of the created track with this as the parent track to mix everything together. If you have the [SWS extension](https://www.sws-extension.org/) installed, this is done automatically!
 
-When the `Separate overlap` option is ticked, all ReaSamploMatic5000s with overlap will be send to the same track when separating. This is handy for instance when designing a snare consisting of multiple samples, which need to remain mixed together when applying FX.
+When the `Separate overlap` option is not ticked, all ReaSamploMatic5000s with overlap will be send to the same track when separating. This is handy for instance when designing a snare consisting of multiple samples, which need to remain mixed together when applying FX.
 
 ### Copying parameters
 
