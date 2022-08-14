@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ReaSamplOmatic5000 Multi" commit="44833e7c9b7d5be58806e6ca4318c091103e97ab">
+<index version="1" name="ReaSamplOmatic5000 Multi" commit="7ef56b695156c545dbb59a74d3f1f3dbf6b32fdc">
   <category name="Sampler">
     <reapack name="reasamplomatic_multi.py" type="script" desc="ReaSamplOmatic5000 multi">
       <metadata>
@@ -7,7 +7,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 ReaSamploMatic5000 multi\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 ReaSamploMatic5000 multi\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 A REAPER script for arranging multiple ReaSamplOmatic5000 instances on a piano roll, made using reapy and tkinter. For detailed instructions, consult the {\field{\*\fldinst{HYPERLINK "https://github.com/maximvdberg/reasamplomatic-multi"}}{\fldrslt{\ul
 readme
 }}}
@@ -175,7 +175,7 @@ here
 SWS extension
 }}}
  installed, this is done automatically!\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 When the {\f1 Separate overlap} option is ticked, all ReaSamploMatic5000s with overlap will be send to the same track when separating. This is handy for instance when designing a snare consisting of multiple samples, which need to remain mixed together when applying FX.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 When the {\f1 Separate overlap} option is not ticked, all ReaSamploMatic5000s with overlap will be send to the same track when separating. This is handy for instance when designing a snare consisting of multiple samples, which need to remain mixed together when applying FX.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Copying parameters\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 The {\f1 Copy/paste params} actions lets you copy any parameters of a specific instance of ReaSamplOmatic5000 to a selection of instances. For instance, you can copy only the ADSR envelope, while leaving the other parameters unchanged.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 To start, select a single note range and right click to open the action menu. Then select {\f1 Copy/paste params}. Two sets are available:\par}
