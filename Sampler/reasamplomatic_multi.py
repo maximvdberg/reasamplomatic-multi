@@ -1,25 +1,29 @@
 # @description ReaSamplOmatic5000 multi
-# @version 1.0.0
+# @version 1.1
 # @author maxim
 # @about
 #   # ReaSamploMatic5000 multi
-
 #   A REAPER script for arranging multiple ReaSamplOmatic5000
 #   instances on a piano roll, made using reapy and tkinter.
-#
 #   For detailed instructions, consult the
 #   [readme](https://github.com/maximvdberg/reasamplomatic-multi).
-#
 #   Some configuration options are available, see the script
 #   for more information.
 # @links
-#   GitHub repository github.com/maximvdberg/samplomatic5000-multi
+#   GitHub repository https://github.com/maximvdberg/reasamplomatic-multi
 # @screenshot
 #   Window https://imgur.com/iUySLMr
-# @provides
-#    reasamplomatic-multi/midi_drumkit.py
 # @changelog
-#   Initial release :)
+#   Improved performance on Windows
+#   Added a `Sync` option
+#   Added customizable keyboard shortcuts
+#   Added action to copy parameters
+#   Added tooltips
+#   Added right-click menu
+#   Added solo/mute functionality
+#   Added default color option
+#   Updated documentation
+#   Automatically set sample mode when `Pitched` is enabled
 
 
 import reapy as rp
@@ -1089,9 +1093,16 @@ def init(insert_at_cursor=False):
 
 
 def refresh():
+    global current_track
     rp.reconnect()
-    reaper_sync()
-    parse_current()
+    project = rp.Project()
+    tracks = project.selected_tracks
+    if len(tracks) > 0:
+        current_track = tracks[0]
+        parse_current()
+    else:
+        clear_samploranges()
+
 
 
 # # # Separate functionality # # #
@@ -1207,6 +1218,7 @@ def drag_split(string):
     return split
 
 def drop_enter(event):
+    print("drop enter")
     global samploranges, render_groups, samploranges_drag, current_track, check_loop, root
 
     if not current_track:
@@ -1216,7 +1228,7 @@ def drop_enter(event):
         samploranges_drag = None
         rp.reaper.show_message_box(
                 "No data in drag and drop event.\n\n" \
-                "Consider enabling drag and drop from REAPER \n (Check `D&D REAPER`)",
+                "Consider enabling drag and drop from REAPER \n (Check `D\&D REAPER`)",
                 "Multi Sampler error: drag and drop")
         return
 
@@ -1237,6 +1249,7 @@ def drop_enter(event):
     # return event.action
 
 def drop_position(event):
+    print("drop move")
     global root, width_per_note, samploranges_drag
 
     if not current_track:
@@ -1263,7 +1276,7 @@ def drop_position(event):
 def drop_leave(event):
     global samploranges, samploranges_drag
 
-    if not current_track:
+    if not current_track or samplorange_drag == None:
         return
 
     for srange in samploranges_drag:
@@ -1301,7 +1314,7 @@ def drop_reaper():
         srange.redraw()
     samploranges_drag = None
 
-    
+
 
 
 
@@ -1333,12 +1346,7 @@ def parse(track, no_reset=False, track_routing=None, recursion_depth=max_recursi
 
         # Remove the previous track info.
         if not no_reset:
-            for r in samploranges:
-                r.widget.destroy();
-                if r.tooltip:
-                    r.tooltip.destroy()
-            samploranges = []
-            render_groups = []
+            clear_samploranges()
 
         # Setup the routing dictionary.
         track_routing = Route()
@@ -1456,6 +1464,19 @@ def no_routing_or_fx_change(track, routing):
     return True
 
 
+# Remove all sample ranges currently present.
+def clear_samploranges():
+    global samploranges, render_groups
+
+    for srange in samploranges:
+        srange.widget.destroy()
+        if srange.tooltip:
+            srange.tooltip.destroy()
+
+    samploranges = []
+    render_groups = []
+
+
 @rp.inside_reaper()
 def reaper_sync():
     global current_track, samploranges, track_name_text
@@ -1473,12 +1494,7 @@ def reaper_sync():
             last_touched = None
 
             # Remove the previous track info.
-            for r in samploranges:
-                r.widget.destroy();
-                if r.tooltip:
-                    r.tooltip.destroy()
-            samploranges = []
-            render_groups = []
+            clear_samploranges()
 
             return
 
@@ -1534,7 +1550,7 @@ def reaper_sync_slow():
     # were added or removed.
     if not no_routing_or_fx_change(current_track, current_track_routing):
         parse_current()
-    elif False: # Disabled: too slow on Windows and not necessary.    
+    elif False: # Disabled: too slow on Windows and not necessary.
         # Check for note range changes.
         for srange in samploranges:
             is_different = False
@@ -1594,7 +1610,7 @@ def zoom(zoom):
     for samplorange in samploranges:
         samplorange.redraw()
     for note_widget in pianoroll_frame.winfo_children():
-        note_widget.configure(width=width_per_note - 
+        note_widget.configure(width=width_per_note -
                               adjust_for_highlight * highlight)
 
     # Move the canvas view
@@ -1620,7 +1636,7 @@ def zoom_pianoroll(zoom):
     for samplorange in samploranges:
         samplorange.redraw()
     for note_widget in pianoroll_frame.winfo_children():
-        note_widget.configure(height=piano_roll_height - 
+        note_widget.configure(height=piano_roll_height -
                               adjust_for_highlight * highlight)
 
 
@@ -2058,9 +2074,9 @@ def guimain():
     btn_zoom_out.grid(column=(grid_index := grid_index + 1), row=0,
                       padx=4, pady=4)
     if tooltip_available:
-        ToolTip(btn_zoom_in, msg="Zoom in.\n\nAlternatively, hold ctrl and scroll.", 
+        ToolTip(btn_zoom_in, msg="Zoom in.\n\nAlternatively, hold ctrl and scroll.",
                 delay=tooltip_delay)
-        ToolTip(btn_zoom_out, msg="Zoom out.\n\nAlternatively, hold ctrl and scroll.", 
+        ToolTip(btn_zoom_out, msg="Zoom out.\n\nAlternatively, hold ctrl and scroll.",
                 delay=tooltip_delay)
 
     # Create the checkboxes.
@@ -2227,28 +2243,28 @@ def guimain():
 
     # Option toggles.
     for k in keys_freeze:
-        canvas.bind_all(f"<{k}>", 
+        canvas.bind_all(f"<{k}>",
             lambda e: freeze.set(not freeze.get()))
     for k in keys_dnd_reaper:
-        canvas.bind_all(f"<{k}>", 
+        canvas.bind_all(f"<{k}>",
             lambda e: allow_reaper_drag_and_drop.set(
                 not allow_reaper_drag_and_drop.get()))
     for k in keys_sync:
-        canvas.bind_all(f"<{k}>", 
+        canvas.bind_all(f"<{k}>",
             lambda e: sync_with_reaper.set(not sync_with_reaper.get()))
     for k in keys_pitched:
-        canvas.bind_all(f"<{k}>", 
+        canvas.bind_all(f"<{k}>",
             lambda e: create_pitched.set(not create_pitched.get()))
     for k in keys_name_by_midi:
-        canvas.bind_all(f"<{k}>", 
+        canvas.bind_all(f"<{k}>",
             lambda e: name_by_general_mid.set(
                 not name_by_general_mid.get()))
     for k in keys_create_bus:
-        canvas.bind_all(f"<{k}>", 
+        canvas.bind_all(f"<{k}>",
             lambda e: create_bus_on_separate.set(
                 not create_bus_on_separate.get()))
     for k in keys_separate_overlap:
-        canvas.bind_all(f"<{k}>", 
+        canvas.bind_all(f"<{k}>",
             lambda e: separate_overlap.set(
                 not separate_overlap.get()))
 
@@ -2361,7 +2377,6 @@ def guimain():
     canvas.pack(side="top", fill="both", expand=True)
 
     # Setup the REAPER check loop.
-    reaper_sync()
     check_loop = root.after(100, sync)
 
     # Start the GUI loop.
@@ -2417,10 +2432,12 @@ if __name__ == "__main__":
     sep = "/"
 
     # Check system.
+    creationflags = 0
     if sys.platform.startswith('win32'):
         # TODO: check other platforms which also need this.
         adjust_for_highlight = 2
         sep = "\\"
+        creationflags = subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP
 
     if rp.is_inside_reaper():
         # raise Exception("Please run `launch-sampler.py` to launch the "
@@ -2428,8 +2445,7 @@ if __name__ == "__main__":
         # Open itself as a new process.
         path = f"{sep}Scripts{sep}ReaSamplOmatic5000 Multi{sep}Sampler{sep}reasamplomatic_multi.py"
         multisampler_process = subprocess.Popen(["python",  rp.reaper.get_resource_path() + path],
-                start_new_session=True, creationflags=
-                subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP)
+                start_new_session=True, creationflags=creationflags)
     else:
         rp.reconnect()
 
