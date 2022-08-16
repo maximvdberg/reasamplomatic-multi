@@ -150,7 +150,7 @@ You should use the tkinter syntax for this (I think the present bindings should 
 
 #### No automatic pitch detection
 
-After changing the note range for pitched samples, you currently need to manually hit the "Detect pitch" button in each ReaSamplOmatic5000 instance. This is very impractical, and really limits the usability of the program. I already asked [in this thread](https://forum.cockos.com/showthread.php?t=19881), perhaps one day this option will be there.
+After changing the note range for pitched samples, you currently need to manually hit the "Detect pitch" button in each ReaSamplOmatic5000 instance. This is very impractical, and really limits the usability of the program. Perhaps one day this option will be there.
 
 #### Docking
 
