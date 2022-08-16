@@ -202,10 +202,7 @@ here
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab [ ] Testing! There are probably still many bugs, so please let me know if you find any.\sa180\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Limitations\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs24 No automatic pitch detection\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 After changing the note range for pitched samples, you currently need to manually hit the "Detect pitch" button in each ReaSamplOmatic5000 instance. This is very impractical, and really limits the usability of the program. I already asked {\field{\*\fldinst{HYPERLINK "https://forum.cockos.com/showthread.php?t=19881"}}{\fldrslt{\ul
-in this thread
-}}}
-, perhaps one day this option will be there.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 After changing the note range for pitched samples, you currently need to manually hit the "Detect pitch" button in each ReaSamplOmatic5000 instance. This is very impractical, and really limits the usability of the program. Perhaps one day this option will be there.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs24 Docking\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 As far as I know, Tk windows cannot be docked in REAPER, so docking the multi sampler is sadly not possible.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs24 Drag and drop from inside REAPER\par}
