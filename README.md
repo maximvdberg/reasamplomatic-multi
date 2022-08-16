@@ -116,12 +116,12 @@ You should use the tkinter syntax for this (I think the present bindings should 
 | redo                 | `ctrl+Z`      | Call _redo_ inside REAPER                        |
 |                      |               |                                                  |
 | freeze               | `f`           | Toggles the `Freeze` option                      |
-| dnd_reaper           | `q`           | Toggles the `D&D REAPER` option                  |
+| dnd reaper           | `q`           | Toggles the `D&D REAPER` option                  |
 | sync                 |               | Toggles the `Sync` option                        |
 | pitched              | `w`           | Toggles the `Pitched` option                     |
-| name_by_midi         |               | Toggles the `Name by MIDI` option                |
-| create_bus           |               | Toggles the `Create bus` option                  |
-| separate_overlap     | `e`           | Toggles the `Separate overlap` option            |
+| name by midi         |               | Toggles the `Name by MIDI` option                |
+| create bus           |               | Toggles the `Create bus` option                  |
+| separate overlap     | `e`           | Toggles the `Separate overlap` option            |
 |                      |               |                                                  |
 | copy                 | `ctrl+c`, `y` | Copy selection                                   |
 | paste                | `ctrl+v`, `p` | Paste selection                                  |
