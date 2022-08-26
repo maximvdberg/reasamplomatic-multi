@@ -28,12 +28,12 @@ You need to install `reapy` and `tkinter` for the program to work. To install `r
 ### Optional dependencies
 
  - For drag-and-drop support, install the `tkinterdnd2` package.
- - To show useful tooltips on hover, you need to install `tktooltip`.
+ - To show useful tooltips on hover, you need to install `tkinter-tooltip`.
 
 To install these dependencies, run the following in a terminal:
 
 ```
-pip install mido tkinterdnd2 tktooltip
+pip install tkinterdnd2 tkinter-tooltip
 ```
 
 or use whatever Python package manager you have installed.
