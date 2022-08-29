@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ReaSamplOmatic5000 Multi" commit="1e8952c7cb1c1215a72af5dbd6c85dba2dc160be">
+<index version="1" name="ReaSamplOmatic5000 Multi" commit="23c1168c96724dea18b4bb2cbccc65f8ac10917b">
   <category name="Sampler">
     <reapack name="reasamplomatic_multi.py" type="script" desc="ReaSamplOmatic5000 multi">
       <metadata>
@@ -42,6 +42,12 @@ Updated documentation]]></changelog>
 Pitch@start now gets updated automatically, meaning you only have to us the 
 detect pitch function once.]]></changelog>
         <source main="main">https://github.com/maximvdberg/reasamplomatic-multi/raw/1e8952c7cb1c1215a72af5dbd6c85dba2dc160be/Sampler/reasamplomatic_multi.py</source>
+      </version>
+      <version name="1.3" author="maxim" time="2022-08-29T18:47:30Z">
+        <changelog><![CDATA[Added reapy enable script
+Fixed keybindings on MacOS
+Fixed colors on MacOS]]></changelog>
+        <source main="main">https://github.com/maximvdberg/reasamplomatic-multi/raw/23c1168c96724dea18b4bb2cbccc65f8ac10917b/Sampler/reasamplomatic_multi.py</source>
       </version>
     </reapack>
   </category>
@@ -122,22 +128,28 @@ License
 }}}
 \sa180\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Dependencies and Installation\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 You need to install {\f1 reapy} and {\f1 tkinter} for the program to work. To install {\f1 reapy}, see the instructions over {\field{\*\fldinst{HYPERLINK "https://github.com/RomeoDespres/reapy#installation"}}{\fldrslt{\ul
+{\pard \ql \f0 \sa180 \li0 \fi0 Make sure you have Python 3 installed and that it is detected by REAPER. You can install the newest Python version from {\field{\*\fldinst{HYPERLINK "https://www.python.org/"}}{\fldrslt{\ul
+python.org
+}}}
+. {\f1 tkinter} should be installed by default. To install {\f1 reapy}, run\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \f1 python -m pip install python-reapy\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 in a terminal, or use whatever Python package manager you have installed. If you also have Python 2 installed, you might need to write {\f1 python3} instead of {\f1 python}.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Next you need to enable reapy in REAPER. You can run the included action/script {\f1 reasamplomatic_multi_enable_reapy.py} for this, or see the instructions over {\field{\*\fldinst{HYPERLINK "https://github.com/RomeoDespres/reapy#installation"}}{\fldrslt{\ul
 here
 }}}
-. Make sure you have Python installed and that it is detected by REAPER. {\f1 tkinter} should be installed by default.\par}
+.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Optional dependencies\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab For drag-and-drop support, install the {\f1 tkinterdnd2} package.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab To show useful tooltips on hover, you need to install {\f1 tkinter-tooltip}.\sa180\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 To install these dependencies, run the following in a terminal:\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \f1 pip install tkinterdnd2 tkinter-tooltip\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 or use whatever Python package manager you have installed.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \f1 python -m pip install tkinterdnd2 tkinter-tooltip\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Getting the script\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 You can add the following repository to {\field{\*\fldinst{HYPERLINK "https://reapack.com/"}}{\fldrslt{\ul
 ReaPack
 }}}
 :\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \f1 https://github.com/maximvdberg/reasamplomatic-multi/raw/master/index.xml\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 You can then run the script from within REAPER, or use the included action {\f1 reasamplomatic_multi.py}.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 Alternatively, you can download the script from this repository, and run it with Python.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Usage notes\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Overview\par}
@@ -198,7 +210,7 @@ here
 }}}
  | | params copy (note) | {\f1 B} | As above, but a different set. | | params paste | {\f1 n} | Paste parameters. |\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Planned Features\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab [ ] Call "detect pitch" from the sampler. See {\field{\*\fldinst{HYPERLINK "#no-automatic-pitch-detection"}}{\fldrslt{\ul
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab [ ] Call "detect pitch" from the sampler automatically after adding a pitched sample. See {\field{\*\fldinst{HYPERLINK "#no-automatic-pitch-detection"}}{\fldrslt{\ul
 here
 }}}
  for more information.\par}
@@ -219,8 +231,9 @@ here
 {\pard \ql \f0 \sa180 \li0 \fi0 Performance on Windows is sadly not amazing. Reapy uses Python sockets for communication with REAPER, which seem to be quite slow on Windows. If you notice REAPER becoming laggy when having the multi sampler active, this is most likely due to the automatic syncing with REAPER. To solve this, you can turn off the {\f1 Sync} option to disable this, and instead manually use the {\f1 Refresh} action (default shortcut is {\f1 r}) whenever you need it.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 It is also recommended you turn off {\i Audio/Close audio device when stopped and application is inactive} in the REAPER preferences. Otherwise, REAPER will stop the audio device when focusing the multi sampler window, which can take quite some time.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 Additionally, the Tk implementation on Windows is very inefficient in comparison to other platforms. I found the responsiveness of dragging/resizing to be somewhat sluggish, and start up times are quite long.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs24 Flickering zoom\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs24 Miscellaneous\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 There is some flickering while zooming. I'm pretty sure this is a limitation on how tkinter works, as I don't think it is impossible to pause the render callback during resizing. Please tell me if you know of a way to circumvent this!\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 When {\f1 on top} is enabled, the tooltips will be rendered behind the main window. This seems to be bug in the tkinter tooltip library. Disable {\f1 On top} to see the tooltips again.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 License\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 The script is licensed under the GNU GPLv3, see {\field{\*\fldinst{HYPERLINK "LICENSE"}}{\fldrslt{\ul
 license
