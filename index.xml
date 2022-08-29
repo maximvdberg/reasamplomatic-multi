@@ -122,9 +122,9 @@ here
 . Make sure you have Python installed and that it is detected by REAPER. {\f1 tkinter} should be installed by default.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Optional dependencies\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab For drag-and-drop support, install the {\f1 tkinterdnd2} package.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab To show useful tooltips on hover, you need to install {\f1 tktooltip}.\sa180\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab To show useful tooltips on hover, you need to install {\f1 tkinter-tooltip}.\sa180\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 To install these dependencies, run the following in a terminal:\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \f1 pip install mido tkinterdnd2 tktooltip\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \f1 pip install tkinterdnd2 tkinter-tooltip\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 or use whatever Python package manager you have installed.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Getting the script\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 You can add the following repository to {\field{\*\fldinst{HYPERLINK "https://reapack.com/"}}{\fldrslt{\ul
