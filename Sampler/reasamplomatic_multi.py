@@ -1,5 +1,5 @@
 # @description ReaSamplOmatic5000 multi
-# @version 1.2
+# @version 1.3
 # @author maxim
 # @about
 #   ## ReaSamploMatic5000 multi
@@ -11,12 +11,13 @@
 #   for more information.
 # @links
 #   GitHub repository https://github.com/maximvdberg/reasamplomatic-multi
+# @provides [main] .
 # @screenshot
 #   Window https://imgur.com/iUySLMr
 # @changelog
-#   Added "stay on top" option
-#   Pitch@start now gets updated automatically, meaning you only have to us the 
-#   detect pitch function once.
+#   Added reapy enable script
+#   Fixed keybindings on MacOS
+#   Fixed colors on MacOS
 
 
 import reapy as rp
@@ -195,6 +196,7 @@ render_groups = []
 adjust_for_highlight = 2
 right_click_menu = None
 internal_script_active = False
+on_macOS = False
 
 # Constants
 total_notes = 128
@@ -241,7 +243,7 @@ class SamploRange():
         self.widget.bind("<ButtonRelease-1>", self.button_release)
         self.widget.bind("<Motion>", self.motion)
         self.widget.bind('<Double-Button-1>', lambda e: self.show(True))
-        self.widget.bind('<Alt-1>', lambda e: self.set_alt())
+        self.widget.bind('<Alt-1>' if not on_macOS else '<Option-1>', lambda e: self.set_alt())
         self.widget.bind('<Button-1>', lambda e: self.select())
         self.widget.bind('<Control-1>', lambda e: self.select(True))
 
@@ -2045,7 +2047,8 @@ def guimain():
     buttons.pack(side="top", anchor="nw")
     grid_index = -1
 
-    btn_init = tk.Button(buttons, text="Add", width=6, height=1, command=init)
+    btn_init = tk.Button(buttons, text="Add", width=6, height=1, command=init, 
+                         highlightbackground=background_color)
     btn_init.grid(column=(grid_index := grid_index + 1), row=0, padx=4, pady=4)
     if tooltip_available:
         ToolTip(btn_init, delay=tooltip_delay, msg=
@@ -2054,7 +2057,8 @@ def guimain():
                 "one.")
 
     btn_separate = tk.Button(buttons, text="Separate", width=6,
-                             height=1, command=separate)
+                             height=1, command=separate,
+                             highlightbackground=background_color)
     btn_separate.grid(column=(grid_index := grid_index + 1), row=0,
                       padx=4, pady=4)
     if tooltip_available:
@@ -2071,9 +2075,11 @@ def guimain():
 
     # Buttons to zoom in and out.
     btn_zoom_in  = tk.Button(buttons, text="+", width=1, height=1,
-                             command=lambda: zoom(1))
+                             command=lambda: zoom(1),
+                             highlightbackground=background_color)
     btn_zoom_out = tk.Button(buttons, text="-", width=1, height=1,
-                             command=lambda: zoom(-1))
+                             command=lambda: zoom(-1),
+                             highlightbackground=background_color)
     btn_zoom_in.grid(column=(grid_index := grid_index + 1), row=0,
                      padx=4, pady=4)
     btn_zoom_out.grid(column=(grid_index := grid_index + 1), row=0,
@@ -2169,7 +2175,8 @@ def guimain():
     # Create the help tooltip.
     global help_icon
     help_icon = tk.Button(root, text="?",
-                highlightthickness=0, fg='white', compound="c")
+                highlightthickness=0, fg='white', compound="c",
+                highlightbackground=background_color)
     help_icon.place(x=100, y=8, height=20, width=20)
     help_icon.tkraise()
     help_icon.place(x=root.winfo_width() - 20)
@@ -2337,20 +2344,32 @@ def guimain():
     m.bind("<FocusOut>", popup_close)
 
     right_click_menu = m
-    canvas.bind_all("<ButtonRelease-3>", popup_menu)
+    if on_macOS:
+        canvas.bind_all("<ButtonRelease-2>", popup_menu)
+    else:
+        canvas.bind_all("<ButtonRelease-3>", popup_menu)
 
     # Rectangle select
-    canvas.bind_all("<Button-3>",  lambda e: rectangle_select_start(e))
-    canvas.bind_all("<Control-3>", lambda e: rectangle_select_start(e, True))
-    canvas.bind_all("<B3-Motion>", rectangle_select)
+    if on_macOS:
+        canvas.bind_all("<Button-2>",  lambda e: rectangle_select_start(e))
+        canvas.bind_all("<Control-2>", lambda e: rectangle_select_start(e, True))
+        canvas.bind_all("<B2-Motion>", rectangle_select)
+    else:
+        canvas.bind_all("<Button-3>",  lambda e: rectangle_select_start(e))
+        canvas.bind_all("<Control-3>", lambda e: rectangle_select_start(e, True))
+        canvas.bind_all("<B3-Motion>", rectangle_select)
 
     # Resizing
     window.bind("<Configure>", lambda e, c=canvas: c.configure(scrollregion=c.bbox("all")))
     root.bind("<Configure>", lambda e, c=canvas, fid=window_id: resize(e, c, fid))
 
     # Scrolling with middle mouse button (doesn't seem to work very well though)
-    window.bind_all("<ButtonPress-2>", lambda e, c=canvas: c.scan_mark(e.x, e.y))
-    window.bind_all("<B2-Motion>", lambda e, c=canvas: c.scan_dragto(e.x, 0, gain=1))
+    if on_macOS:
+        window.bind_all("<ButtonPress-2>", lambda e, c=canvas: c.scan_mark(e.x, e.y))
+        window.bind_all("<B2-Motion>", lambda e, c=canvas: c.scan_dragto(e.x, 0, gain=1))
+    else:
+        window.bind_all("<ButtonPress-2>", lambda e, c=canvas: c.scan_mark(e.x, e.y))
+        window.bind_all("<B2-Motion>", lambda e, c=canvas: c.scan_dragto(e.x, 0, gain=1))
 
     # Scrolling
     scroll_windows = lambda e, c=canvas: canvas.xview_scroll(int(-e.delta/abs(e.delta)*scroll_speed) , "units")
@@ -2369,9 +2388,14 @@ def guimain():
     # Zooming (pianoroll)
     zoom_pianoroll_windows = lambda e: zoom_pianoroll(int(-e.delta/abs(e.delta)*zoom_speed))
     zoom_pianoroll_linux = lambda direction: zoom_pianoroll(direction*zoom_speed)
-    canvas.bind_all("<Alt-MouseWheel>", zoom_pianoroll_windows, add=True)
-    canvas.bind_all("<Alt-Button-4>", lambda e, d=1: zoom_pianoroll_linux(d), add=True)
-    canvas.bind_all("<Alt-Button-5>", lambda e, d=-1: zoom_pianoroll_linux(d), add=True)
+    if on_macOS:
+        canvas.bind_all("<Mod2-MouseWheel>", zoom_pianoroll_windows, add=True)
+        canvas.bind_all("<Mod2-Button-4>", lambda e, d=1: zoom_pianoroll_linux(d), add=True)
+        canvas.bind_all("<Mod2-Button-5>", lambda e, d=-1: zoom_pianoroll_linux(d), add=True)
+    else:
+        canvas.bind_all("<Alt-MouseWheel>", zoom_pianoroll_windows, add=True)
+        canvas.bind_all("<Alt-Button-4>", lambda e, d=1: zoom_pianoroll_linux(d), add=True)
+        canvas.bind_all("<Alt-Button-5>", lambda e, d=-1: zoom_pianoroll_linux(d), add=True)
 
     # Drag-and-drop
     if dnd_available:
@@ -2422,21 +2446,18 @@ def gui_pianoroll():
                 padx=0, pady=0,
                 highlightthickness=highlight,
                 highlightbackground="#F0F0F0",
-                # highlightforeground='green',
-                # activebackground=select_color,
                 bd=0,
                 bg=color,
                 fg=fg_color,
-                # command=lambda i=note: play_note(i, False),
                 compound="c")
         note_button.grid(column=note, row=0)
         note_button.bind("<Button-1>", lambda e, i=note: play_note(i, True, e))
         note_button.bind("<ButtonRelease-1>", lambda e, i=note: play_note(i, False, e))
 
         if tooltip_available:
-            ToolTip(note_button, delay=tooltip_delay,
-                    msg=f"Press to send MIDI note {note} to reaper. "
-                         "\n\nVertical position determines velocity.")
+            tooltip = ToolTip(note_button, delay=tooltip_delay,
+                              msg=f"Press to send MIDI note {note} to reaper. "
+                              "\n\nVertical position determines velocity.")
 
 # # # Main # # #
 
@@ -2450,6 +2471,8 @@ if __name__ == "__main__":
         adjust_for_highlight = 2
         sep = "\\"
         creationflags = subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP
+    elif sys.platform.startswith("darwin"):
+        on_macOS = True
 
     if rp.is_inside_reaper():
         # raise Exception("Please run `launch-sampler.py` to launch the "

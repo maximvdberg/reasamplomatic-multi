@@ -23,7 +23,18 @@
 
 ## Dependencies and Installation
 
-You need to install `reapy` and `tkinter` for the program to work. To install `reapy`, see the instructions over [here](https://github.com/RomeoDespres/reapy#installation). Make sure you have Python installed and that it is detected by REAPER. `tkinter` should be installed by default.
+Make sure you have Python 3 installed and that it is detected by REAPER. You can install the newest Python version from [python.org](https://www.python.org/). 
+`tkinter` should be installed by default. To install `reapy`, run
+
+```
+python -m pip install python-reapy
+```
+
+in a terminal, or use whatever Python package manager you have installed.
+If you also have Python 2 installed, you might need to write `python3` instead of `python`. 
+
+Next you need to enable reapy in REAPER. 
+You can run the included action/script `reasamplomatic_multi_enable_reapy.py` for this, or see the instructions over [here](https://github.com/RomeoDespres/reapy#installation). 
 
 ### Optional dependencies
 
@@ -33,10 +44,8 @@ You need to install `reapy` and `tkinter` for the program to work. To install `r
 To install these dependencies, run the following in a terminal:
 
 ```
-pip install tkinterdnd2 tkinter-tooltip
+python -m pip install tkinterdnd2 tkinter-tooltip
 ```
-
-or use whatever Python package manager you have installed.
 
 ### Getting the script
 
@@ -45,6 +54,8 @@ You can add the following repository to [ReaPack](https://reapack.com/):
 ```
 https://github.com/maximvdberg/reasamplomatic-multi/raw/master/index.xml
 ```
+
+You can then run the script from within REAPER, or use the included action `reasamplomatic_multi.py`.
 
 Alternatively, you can download the script from this repository, and run it with Python.
 
@@ -140,7 +151,7 @@ You should use the tkinter syntax for this (I think the present bindings should 
 
 
 ## Planned Features
- - [ ] Call "detect pitch" from the sampler. See [here](#no-automatic-pitch-detection) for more information.
+ - [ ] Call "detect pitch" from the sampler automatically after adding a pitched sample. See [here](#no-automatic-pitch-detection) for more information.
  - [ ] Allow `refresh` to reconnect after closing & reopening REAPER.
  - [ ] A way to save user settings without requiring them to edit the script.
  - [ ] Shortcut to zoom to fit all note ranges.
@@ -168,15 +179,17 @@ If you know a more elegant solution to this, let me know!
 #### Performance on Windows
 
 Performance on Windows is sadly not amazing.
-Reapy uses Python sockets for communication with REAPER, which seem to be quite slow on Windows. If you notice REAPER becoming laggy when having the multi sampler active, this is most likely due to the automatic syncing with REAPER. To solve this, you can turn off the `Sync` option to disable this, and instead manually use the `Refresh` action (default shortcut is `r`) whenever you need it.
+Reapy uses Python sockets for communication with REAPER, which seem to be quite slow on Windows. If you notice REAPER becoming laggy when having the multi sampler active, this is most likely due to the automatic syncing with REAPER. To solve this, you can turn off the `Sync` option to disable this, and instead manually use the `Refresh` action (default shortcut is `r`) whenever you need it. 
 
 It is also recommended you turn off _Audio/Close audio device when stopped and application is inactive_ in the REAPER preferences. Otherwise, REAPER will stop the audio device when focusing the multi sampler window, which can take quite some time.
 
 Additionally, the Tk implementation on Windows is very inefficient in comparison to other platforms. I found the responsiveness of dragging/resizing to be somewhat sluggish, and start up times are quite long.
 
-#### Flickering zoom
+#### Miscellaneous
 
 There is some flickering while zooming. I'm pretty sure this is a limitation on how tkinter works, as I don't think it is impossible to pause the render callback during resizing. Please tell me if you know of a way to circumvent this!
+
+When `on top` is enabled, the tooltips will be rendered behind the main window. This seems to be bug in the tkinter tooltip library. Disable `On top` to see the tooltips again.
 
 
 ## License
