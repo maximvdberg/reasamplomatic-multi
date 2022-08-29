@@ -1,8 +1,8 @@
 # @description ReaSamplOmatic5000 multi
-# @version 1.1
+# @version 1.2
 # @author maxim
 # @about
-#   # ReaSamploMatic5000 multi
+#   ## ReaSamploMatic5000 multi
 #   A REAPER script for arranging multiple ReaSamplOmatic5000
 #   instances on a piano roll, made using reapy and tkinter.
 #   For detailed instructions, consult the
@@ -14,16 +14,9 @@
 # @screenshot
 #   Window https://imgur.com/iUySLMr
 # @changelog
-#   Improved performance on Windows
-#   Added a `Sync` option
-#   Added customizable keyboard shortcuts
-#   Added action to copy parameters
-#   Added tooltips
-#   Added right-click menu
-#   Added solo/mute functionality
-#   Added default color option
-#   Updated documentation
-#   Automatically set sample mode when `Pitched` is enabled
+#   Added "stay on top" option
+#   Pitch@start now gets updated automatically, meaning you only have to us the 
+#   detect pitch function once.
 
 
 import reapy as rp
@@ -132,6 +125,7 @@ keys_redo = ['Control-Z']
 
 # Options
 keys_freeze = ['f']
+keys_stay_on_top = ['t']
 keys_dnd_reaper = ['q']
 keys_sync = []
 keys_pitched = ['w']
@@ -182,6 +176,7 @@ general_midi_drumkit = {
         86: "Mute Surdo", 87: "Open Surdo"
     }
 freeze = False
+stay_on_top = True
 running = True
 current_track = None
 current_track_routing = None
@@ -723,13 +718,11 @@ class SamploRange():
 
             with rp.undo_block('Multi-Sampler: update note range'):
                 params = self.fx.params
+                difference = self.start - params["Note range start"] * 127
+
                 params["Note range start"] = self.start / 127
                 params["Note range end"] = self.end / 127
-
-                # TODO: Call the detect-pitch function
-                # This seems to be impossible in the ReaScript API for the moment.
-                # Perhaps one day...
-
+                params["Pitch for start note"] += difference / 160
 
 # # # Layered rendering. # # #
 
@@ -1034,6 +1027,11 @@ def add_in_reaper(samplorange, track, note_start, note_end,
     soloing = any(s.solo for s in samploranges)
     if soloing:
         samplomatic.disable()
+    
+    # TODO: Call the detect-pitch function
+    # This seems to be impossible in the ReaScript API for the moment.
+    # Perhaps one day...
+
 
 # Add new ReaSamplOmatic5000 instance.
 def setup(track, note_start = -1, note_end = -1):
@@ -1218,7 +1216,6 @@ def drag_split(string):
     return split
 
 def drop_enter(event):
-    print("drop enter")
     global samploranges, render_groups, samploranges_drag, current_track, check_loop, root
 
     if not current_track:
@@ -1249,7 +1246,6 @@ def drop_enter(event):
     # return event.action
 
 def drop_position(event):
-    print("drop move")
     global root, width_per_note, samploranges_drag
 
     if not current_track:
@@ -1276,7 +1272,7 @@ def drop_position(event):
 def drop_leave(event):
     global samploranges, samploranges_drag
 
-    if not current_track or samplorange_drag == None:
+    if not current_track or samploranges_drag == None:
         return
 
     for srange in samploranges_drag:
@@ -1295,11 +1291,17 @@ def drop(event):
     global samploranges_drag, current_track, root
 
     if not current_track:
+        track_name_text.set("Please select a track to drag and drop to.")
+        root.after(2000, dnd_remove_warning)
         return event.action
 
     # Add the note ranges in REAPER.
     root.after(50, drop_reaper)
     return event.action
+
+def dnd_remove_warning():
+    if track_name_text.get() == "Please select a track to drag and drop to.":
+        track_name_text.set("")
 
 @rp.inside_reaper()
 def drop_reaper():
@@ -1406,6 +1408,9 @@ slow_counter_max = 10
 def sync():
     global root, current_track, freeze, slow_counter, samploranges, samploranges_drag
     into_focus = False
+
+    if stay_on_top.get() != root.attributes('-topmost'):
+        root.attributes('-topmost', stay_on_top.get())
 
     if sync_with_reaper.get() and samploranges_drag == None:
         # Run the slow reaper check when the window comes into focus.
@@ -2081,10 +2086,11 @@ def guimain():
 
     # Create the checkboxes.
     global create_pitched, create_bus_on_separate, freeze, allow_reaper_drag_and_drop, \
-           separate_overlap, name_by_general_midi, sync_with_reaper
+           stay_on_top, separate_overlap, name_by_general_midi, sync_with_reaper
     create_pitched             = tk.IntVar(value=create_pitched)
     create_bus_on_separate     = tk.IntVar(value=create_bus_on_separate)
     freeze                     = tk.IntVar(value=freeze)
+    stay_on_top                = tk.IntVar(value=stay_on_top)
     sync_with_reaper           = tk.IntVar(value=sync_with_reaper)
     allow_reaper_drag_and_drop = tk.IntVar(value=allow_reaper_drag_and_drop)
     separate_overlap           = tk.IntVar(value=separate_overlap)
@@ -2102,6 +2108,9 @@ def guimain():
                   "\n\nIf you notice REAPER hang once in a while turning this off "
                   "might be a good idea. Especially on Windows syncing can be very "
                   "slow."),
+              sep,
+              ("On top", stay_on_top,
+                  "When set, stay on top of all other windows."),
               sep,
               ("D&D REAPER", allow_reaper_drag_and_drop,
                   "When set, allow drag and drop from the REAPER media explorer. "
@@ -2245,6 +2254,9 @@ def guimain():
     for k in keys_freeze:
         canvas.bind_all(f"<{k}>",
             lambda e: freeze.set(not freeze.get()))
+    for k in keys_stay_on_top:
+        canvas.bind_all(f"<{k}>",
+            lambda e: stay_on_top.set(not stay_on_top.get()))
     for k in keys_dnd_reaper:
         canvas.bind_all(f"<{k}>",
             lambda e: allow_reaper_drag_and_drop.set(

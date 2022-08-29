@@ -70,12 +70,12 @@ A short list of miscellaneous features:
  * __Zoom & resize__ Scroll the view with the mouse wheel, or click the middle mouse button and drag. Zoom with `ctrl+mousewheel`, or the `+` and `-` buttons. Zoom the piano roll with `alt+mousewheel`. The window is freely resizable (and you can change the default size in the script).
  * __Layering__ The note ranges align vertically such that they don't overlap. This allows for easy layering of multiple samples.
  * __Syncing__ The multi sampler will automatically reflect changes in REAPER, such as renaming of tracks and ReaSamplOmatic5000 instances. Some changes (that take much longer to check) are only updated on refocusing the multi sampler window.
- * __Pitched__ By setting the `Pitched` option, newly added ReaSamplOmatic5000's are set to the `Note (Semitone shifted)` mode, instead of `Sample (Ignores MIDI note)`, and `Obey note-offs` is enabled. Enable this option when adding pitched samples, and disable when adding (unpitched) percussion. Unfortunately, you still [need to click the detect pitch button](#no-automatic-pitch-detection).
+ * __Pitched__ By setting the `Pitched` option, newly added ReaSamplOmatic5000's are set to the `Note (Semitone shifted)` mode, instead of `Sample (Ignores MIDI note)`, and `Obey note-offs` is enabled. Enable this option when adding pitched samples, and disable when adding (unpitched) percussion. Unfortunately, you still [need to click the detect pitch button](#no-automatic-pitch-detection) once after adding the samples.
  * __Groups__ The multi sampler integrates with MIDI routing in REAPER. See [creating groups](#creating-groups) for more information.
  * __Parameter copy__ You can copy and paste specific parameters of the ReaSamplOmatic5000 instances. See [copying parameters](#copying-parameters) for more information.
  * __Drag and drop__ You can drag and drop samples into the window. Note that to drag and drop from the REAPER media explorer, you need to enable the `D&D REAPER` option. Go [here](#drag-and-drop-from-inside-reaper) to find out why.
  * __Solo and mute__ You can solo and mute note ranges.
- * __MIDI__ You can click on the notes on the piano roll to send MIDI data to REAPER. Velocity is dependent on the height of your mouse.
+ * __MIDI__ You can click on the notes on the piano below to send MIDI data to REAPER. Velocity is dependent on the height of your mouse.
  * __Defaults__ If you want, you can change some default values at the top of the script (short descriptions are given). You can change behaviour as well as appearance.
  * __Colors__ The multi sampler also uses the track colors. You can set the `alpha` parameter at the top of the script to change how to colors are used.
 
@@ -150,7 +150,7 @@ You should use the tkinter syntax for this (I think the present bindings should 
 
 #### No automatic pitch detection
 
-After changing the note range for pitched samples, you currently need to manually hit the "Detect pitch" button in each ReaSamplOmatic5000 instance. This is very impractical, and really limits the usability of the program. Perhaps one day this option will be there.
+After adding pitched samples, you currently need to manually hit the "Detect pitch" button once in each ReaSamplOmatic5000 instance. This is very impractical, and really limits the usability of the program. Perhaps one day this option will be there.
 
 #### Docking
 
