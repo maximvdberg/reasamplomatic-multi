@@ -12,6 +12,7 @@
 # @links
 #   GitHub repository https://github.com/maximvdberg/reasamplomatic-multi
 # @provides [main] .
+# @provides [main] reasamplomatic_multi_enable_reapy.py
 # @screenshot
 #   Window https://imgur.com/iUySLMr
 # @changelog
