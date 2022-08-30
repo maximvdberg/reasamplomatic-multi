@@ -139,9 +139,10 @@ here
 }}}
 .\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Optional dependencies\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab For drag-and-drop support, install the {\f1 tkinterdnd2} package.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab To show useful tooltips on hover, you need to install {\f1 tkinter-tooltip}.\sa180\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 To install these dependencies, run the following in a terminal:\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab For automatic pitch detection, you need to install the JS ReaScript API via ReaPack (search for {\f1 js_ReaScriptAPI: API functions for ReaScripts}). For this to work, you need to install ReaSamplOmatic Multi via ReaPack as well.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab For drag-and-drop support, install the {\f1 tkinterdnd2} Python package.\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab To show useful tooltips on hover, you need to install the {\f1 tkinter-tooltip} Python package.\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 To install these last two dependencies, run the following in a terminal:\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \f1 python -m pip install tkinterdnd2 tkinter-tooltip\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Getting the script\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 You can add the following repository to {\field{\*\fldinst{HYPERLINK "https://reapack.com/"}}{\fldrslt{\ul
@@ -166,10 +167,10 @@ too slow on Windows
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Zoom & resize} Scroll the view with the mouse wheel, or click the middle mouse button and drag. Zoom with {\f1 ctrl+mousewheel}, or the {\f1 +} and {\f1 -} buttons. Change the piano notes size with {\f1 alt+mousewheel}. The window is freely resizable (and you can change the default size in the script).\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Layering} The note ranges align vertically such that they don't overlap. This allows for easy layering of multiple samples.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Syncing} The multi sampler will automatically reflect changes in REAPER, such as renaming of tracks and ReaSamplOmatic5000 instances. Some changes (that take much longer to check) are only updated on refocusing the multi sampler window.\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Pitched} By setting the {\f1 Pitched} option, newly added ReaSamplOmatic5000's are set to the {\f1 Note (Semitone shifted)} mode, instead of {\f1 Sample (Ignores MIDI note)}, and {\f1 Obey note-offs} is enabled. Enable this option when adding pitched samples, and disable when adding (unpitched) percussion. Unfortunately, you still {\field{\*\fldinst{HYPERLINK "#no-automatic-pitch-detection"}}{\fldrslt{\ul
-need to click the detect pitch button
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Pitched} By setting the {\f1 Pitched} option, newly added ReaSamplOmatic5000's are set to the {\f1 Note (Semitone shifted)} mode, instead of {\f1 Sample (Ignores MIDI note)}, and {\f1 Obey note-offs} is enabled. Enable this option when adding pitched samples, and disable when adding (unpitched) percussion. You need to install the {\i JS ReaScript API} for the {\f1 Detect pitch} to be automically run for added samples. See the {\field{\*\fldinst{HYPERLINK "#optional-dependencies"}}{\fldrslt{\ul
+optional dependencies
 }}}
- once after adding the samples.\par}
+.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Groups} The multi sampler integrates with MIDI routing in REAPER. See {\field{\*\fldinst{HYPERLINK "#creating-groups"}}{\fldrslt{\ul
 creating groups
 }}}
@@ -210,17 +211,11 @@ here
 }}}
  | | params copy (note) | {\f1 B} | As above, but a different set. | | params paste | {\f1 n} | Paste parameters. |\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Planned Features\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab [ ] Call "detect pitch" from the sampler automatically after adding a pitched sample. See {\field{\*\fldinst{HYPERLINK "#no-automatic-pitch-detection"}}{\fldrslt{\ul
-here
-}}}
- for more information.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab [ ] Allow {\f1 refresh} to reconnect after closing & reopening REAPER.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab [ ] A way to save user settings without requiring them to edit the script.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab [ ] Shortcut to zoom to fit all note ranges.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab [ ] Testing! There are probably still many bugs, so please let me know if you find any.\sa180\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Limitations\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs24 No automatic pitch detection\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 After adding pitched samples, you currently need to manually hit the "Detect pitch" button once in each ReaSamplOmatic5000 instance. This is very impractical, and really limits the usability of the program. Perhaps one day this option will be there.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs24 Docking\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 As far as I know, Tk windows cannot be docked in REAPER, so docking the multi sampler is sadly not possible.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs24 Drag and drop from inside REAPER\par}
