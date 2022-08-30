@@ -38,14 +38,17 @@ You can run the included action/script `reasamplomatic_multi_enable_reapy.py` fo
 
 ### Optional dependencies
 
- - For drag-and-drop support, install the `tkinterdnd2` package.
- - To show useful tooltips on hover, you need to install `tkinter-tooltip`.
+ - For automatic pitch detection, you need to install the JS ReaScript API via ReaPack (search for `js_ReaScriptAPI: API functions for ReaScripts`). For this to work, you need to install ReaSamplOmatic Multi via ReaPack as well. 
+ - For drag-and-drop support, install the `tkinterdnd2` Python package.
+ - To show useful tooltips on hover, you need to install the `tkinter-tooltip` Python package.
 
-To install these dependencies, run the following in a terminal:
+To install these last two dependencies, run the following in a terminal:
 
 ```
 python -m pip install tkinterdnd2 tkinter-tooltip
 ```
+
+
 
 ### Getting the script
 
@@ -81,7 +84,7 @@ A short list of miscellaneous features:
  * __Zoom & resize__ Scroll the view with the mouse wheel, or click the middle mouse button and drag. Zoom with `ctrl+mousewheel`, or the `+` and `-` buttons. Change the piano notes size with `alt+mousewheel`. The window is freely resizable (and you can change the default size in the script).
  * __Layering__ The note ranges align vertically such that they don't overlap. This allows for easy layering of multiple samples.
  * __Syncing__ The multi sampler will automatically reflect changes in REAPER, such as renaming of tracks and ReaSamplOmatic5000 instances. Some changes (that take much longer to check) are only updated on refocusing the multi sampler window.
- * __Pitched__ By setting the `Pitched` option, newly added ReaSamplOmatic5000's are set to the `Note (Semitone shifted)` mode, instead of `Sample (Ignores MIDI note)`, and `Obey note-offs` is enabled. Enable this option when adding pitched samples, and disable when adding (unpitched) percussion. Unfortunately, you still [need to click the detect pitch button](#no-automatic-pitch-detection) once after adding the samples.
+ * __Pitched__ By setting the `Pitched` option, newly added ReaSamplOmatic5000's are set to the `Note (Semitone shifted)` mode, instead of `Sample (Ignores MIDI note)`, and `Obey note-offs` is enabled. Enable this option when adding pitched samples, and disable when adding (unpitched) percussion. You need to install the _JS ReaScript API_ for the `Detect pitch` to be automically run for added samples. See the [optional dependencies](#optional-dependencies).
  * __Groups__ The multi sampler integrates with MIDI routing in REAPER. See [creating groups](#creating-groups) for more information.
  * __Parameter copy__ You can copy and paste specific parameters of the ReaSamplOmatic5000 instances. See [copying parameters](#copying-parameters) for more information.
  * __Drag and drop__ You can drag and drop samples into the window. Note that to drag and drop from the REAPER media explorer, you need to enable the `D&D REAPER` option. Go [here](#drag-and-drop-from-inside-reaper) to find out why.
@@ -151,17 +154,12 @@ You should use the tkinter syntax for this (I think the present bindings should 
 
 
 ## Planned Features
- - [ ] Call "detect pitch" from the sampler automatically after adding a pitched sample. See [here](#no-automatic-pitch-detection) for more information.
  - [ ] Allow `refresh` to reconnect after closing & reopening REAPER.
  - [ ] A way to save user settings without requiring them to edit the script.
  - [ ] Shortcut to zoom to fit all note ranges.
  - [ ] Testing! There are probably still many bugs, so please let me know if you find any.
 
 ## Limitations
-
-#### No automatic pitch detection
-
-After adding pitched samples, you currently need to manually hit the "Detect pitch" button once in each ReaSamplOmatic5000 instance. This is very impractical, and really limits the usability of the program. Perhaps one day this option will be there.
 
 #### Docking
 

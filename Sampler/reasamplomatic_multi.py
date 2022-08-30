@@ -1,5 +1,5 @@
 # @description ReaSamplOmatic5000 multi
-# @version 1.3
+# @version 1.4
 # @author maxim
 # @about
 #   ## ReaSamploMatic5000 multi
@@ -13,14 +13,12 @@
 #   GitHub repository https://github.com/maximvdberg/reasamplomatic-multi
 # @provides 
 #   [main] .
-#   [main] reasamplomatic_multi_enable_reapy.py
-#   [main] reasamplomatic_multi_detect_pitch.lua
+#   [main] Sampler/reasamplomatic_multi_enable_reapy.py
+#   [main] Sampler/reasamplomatic_multi_detect_pitch.lua
 # @screenshot
 #   Window https://imgur.com/iUySLMr
 # @changelog
-#   Added reapy enable script
-#   Fixed keybindings on MacOS
-#   Fixed colors on MacOS
+#   Added automatic pitch detection if the JS ReaScript API installed.
 
 
 import reapy as rp
@@ -200,6 +198,7 @@ adjust_for_highlight = 2
 right_click_menu = None
 internal_script_active = False
 on_macOS = False
+detect_pitch_script_id = 0
 
 # Constants
 total_notes = 128
@@ -942,8 +941,6 @@ def set_fx_mode(fx):
     data_start = loc + 1
     data_end = chunk.find("\n", loc + 1)
 
-    print(chunk[data_start:data_end])
-
     chunk_new = chunk[:data_start] + fx_mode_note_data + chunk[data_end:]
 
     # Update the chunk.
@@ -1032,10 +1029,13 @@ def add_in_reaper(samplorange, track, note_start, note_end,
     soloing = any(s.solo for s in samploranges)
     if soloing:
         samplomatic.disable()
-    
-    # TODO: Call the detect-pitch function
-    # This seems to be impossible in the ReaScript API for the moment.
-    # Perhaps one day...
+
+    samplomatic.open_ui()
+
+    if create_pitched:
+        if detect_pitch_script_id:
+            print("Perform detect pitch!")
+            rp.Project().perform_action(detect_pitch_script_id)
 
 
 # Add new ReaSamplOmatic5000 instance.
@@ -2476,6 +2476,17 @@ if __name__ == "__main__":
         creationflags = subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP
     elif sys.platform.startswith("darwin"):
         on_macOS = True
+
+    # Add the other actions
+    # check if JS ReaScript API is available
+    if rp.reascript_api.APIExists('JS_Window_OnCommand'):
+        js_exists = True;
+        path_dir = os.path.join(rp.reaper.get_resource_path(), "Scripts/ReaSamplOmatic5000 Multi/Sampler/")
+        path = os.path.join(path_dir, "reasamplomatic_multi_detect_pitch.lua")
+        detect_pitch_script_id = rp.reaper.add_reascript(path)
+        print("Automatic detect pitch enabled")
+    else:
+        print("Install the JS ReaScript API to enable automatic pitch detection")
 
     if rp.is_inside_reaper():
         # raise Exception("Please run `launch-sampler.py` to launch the "
