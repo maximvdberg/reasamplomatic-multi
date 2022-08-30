@@ -13,8 +13,8 @@
 #   GitHub repository https://github.com/maximvdberg/reasamplomatic-multi
 # @provides 
 #   [main] .
-#   reasamplomatic_multi_enable_reapy.py
-#   reasamplomatic_multi_detect_pitch.lua
+#   [main] reasamplomatic_multi_enable_reapy.py
+#   [main] reasamplomatic_multi_detect_pitch.lua
 # @screenshot
 #   Window https://imgur.com/iUySLMr
 # @changelog
