@@ -59,7 +59,7 @@ import re
 
 # Configuration options - Defaults (changeable in GUI)
 width_per_note = 20            # Width in pixels of the notes.
-piano_roll_height = 60         # Height in pixels of the piano roll.
+piano_roll_height = 60         # Height in pixels of the piano notes.
 
 create_pitched = 0             # When adding new note ranges, make them pitched: Set mode to
                                # `Note (semitone shifted) and `Obey note-offs` to `True`.
@@ -1602,7 +1602,7 @@ def resize(event, canvas, window_id):
             samplerange.redraw()
 
 
-# Zoom the note sizes. Update the piano roll and SamploRanges.
+# Zoom the note sizes. Update the piano notes and SamploRanges.
 # Also try to keep the zoom centered.
 # (this does not look very smooth, maybe it can be improved)
 def zoom(zoom):
@@ -2201,8 +2201,8 @@ def guimain():
                     "Hold ctrl to add to selection.\n"
                     "\n"
                     "Hold ctrl and scroll to zoom. You can \n"
-                    "also change the piano roll size if you \n"
-                    "hover over it.\n"
+                    "also change the piano notes size if you \n"
+                    "hold alt and scroll.\n"
                     "\n"
                     "Right click to open the action menu.\n"
                     " - Most actions apply to the selection,\n"

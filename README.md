@@ -1,6 +1,6 @@
 # ReaSamplOmatic5000 multi
 
- ReaSamplOmatic500 multi lets you arrange ReaSamplOmatic5000 instances on a piano roll. This project aims to give REAPER a sampler such as FL Studio's [DirectWave Sampler](https://www.image-line.com/fl-studio-learning/fl-studio-online-manual/html/plugins/DirectWave.htm)  or the [TX16Wx Software Sampler](https://www.tx16wx.com/), while also integrating with REAPER routing.
+ ReaSamplOmatic500 multi lets you arrange ReaSamplOmatic5000 instances on a keyboard layout. This project aims to give REAPER a sampler such as FL Studio's [DirectWave Sampler](https://www.image-line.com/fl-studio-learning/fl-studio-online-manual/html/plugins/DirectWave.htm)  or the [TX16Wx Software Sampler](https://www.tx16wx.com/), while also integrating with REAPER routing.
 
  The script is powered by the excellent [reapy](https://github.com/RomeoDespres/reapy), and uses [tkinter](https://docs.python.org/3/library/tkinter.html) for the GUI.
 
@@ -78,7 +78,7 @@ For instance, check `freeze` to stay on the selected track, and not follow the s
 
 A short list of miscellaneous features:
 
- * __Zoom & resize__ Scroll the view with the mouse wheel, or click the middle mouse button and drag. Zoom with `ctrl+mousewheel`, or the `+` and `-` buttons. Zoom the piano roll with `alt+mousewheel`. The window is freely resizable (and you can change the default size in the script).
+ * __Zoom & resize__ Scroll the view with the mouse wheel, or click the middle mouse button and drag. Zoom with `ctrl+mousewheel`, or the `+` and `-` buttons. Change the piano notes size with `alt+mousewheel`. The window is freely resizable (and you can change the default size in the script).
  * __Layering__ The note ranges align vertically such that they don't overlap. This allows for easy layering of multiple samples.
  * __Syncing__ The multi sampler will automatically reflect changes in REAPER, such as renaming of tracks and ReaSamplOmatic5000 instances. Some changes (that take much longer to check) are only updated on refocusing the multi sampler window.
  * __Pitched__ By setting the `Pitched` option, newly added ReaSamplOmatic5000's are set to the `Note (Semitone shifted)` mode, instead of `Sample (Ignores MIDI note)`, and `Obey note-offs` is enabled. Enable this option when adding pitched samples, and disable when adding (unpitched) percussion. Unfortunately, you still [need to click the detect pitch button](#no-automatic-pitch-detection) once after adding the samples.
