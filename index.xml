@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ReaSamplOmatic5000 Multi" commit="2e6af8cfbbf6d4011c3973dba5d7d150bb1ba929">
+<index version="1" name="ReaSamplOmatic5000 Multi" commit="ab2c877ffed3a6b484bc9020c9b256b3e091f328">
   <category name="Sampler">
     <reapack name="reasamplomatic_multi.py" type="script" desc="ReaSamplOmatic5000 multi">
       <metadata>
@@ -83,7 +83,7 @@ MPL's ReaSamplomatic5000 manager
 , which is similar but focuses mainly on single-note (drum) samples. Definitely check out his useful {\field{\*\fldinst{HYPERLINK "https://github.com/MichaelPilyavskiy/ReaScripts"}}{\fldrslt{\ul
 ReaSamplomatic5000 scripts
 }}}
- too!\par}
+ too! The {\f1 mpl_Export selected items to RS5k instances on selected track} scripts are especially useful together with this script.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Contents\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 1.\tx360\tab {\field{\*\fldinst{HYPERLINK "#dependencies-and-installation"}}{\fldrslt{\ul
 Dependencies and Installation
@@ -212,7 +212,7 @@ SWS extension
 {\pard \ql \f0 \sa180 \li0 \fi0 | Action | Binding | Description | | -------------------- | ------------- | ------------------------------------------------ | | add | {\f1 a} | Add a ReaSamplOmatic5000 instance | | refresh | {\f1 r} | Resync with REAPER | | separate | {\f1 g} | Separate selection, see {\field{\*\fldinst{HYPERLINK "#creating-groups"}}{\fldrslt{\ul
 here
 }}}
- | | scroll to center | {\f1 z} | Scroll the view to C2 | | close instance ui | {\f1 c} | Close the FX windows of selection | | undo | {\f1 ctrl+z} | Call {\i undo} inside REAPER | | redo | {\f1 ctrl+Z} | Call {\i redo} inside REAPER | | | | | | freeze | {\f1 f} | Toggles the {\f1 Freeze} option | | dnd reaper | {\f1 q} | Toggles the {\f1 D&D REAPER} option | | sync | | Toggles the {\f1 Sync} option | | pitched | {\f1 w} | Toggles the {\f1 Pitched} option | | name by midi | | Toggles the {\f1 Name by MIDI} option | | create bus | | Toggles the {\f1 Create bus} option | | separate overlap | {\f1 e} | Toggles the {\f1 Separate overlap} option | | | | | | copy | {\f1 ctrl+c}, {\f1 y} | Copy selection | | paste | {\f1 ctrl+v}, {\f1 p} | Paste selection | | delete | {\f1 Delete}, {\f1 d} | Delete selection | | select all | {\f1 ctrl+a} | Select all note ranges | | | | | | solo toggle | {\f1 m} | Solo selection | | unsolo all | {\f1 M} | Unsolo selection | | mute toggle | {\f1 s} | Mute selection | | unmute all | {\f1 S} | Unmute selection | | reset solo and mute | {\f1 x} | Unmute and unsolo all note ranges | | | | | | params copy (sample) | {\f1 b} | Copy parameters, see {\field{\*\fldinst{HYPERLINK "#copying-parameters"}}{\fldrslt{\ul
+ | | detect pitch | {\f1 D} | Call {\f1 Detect pitch} function of selection | | scroll to center | {\f1 z} | Scroll the view to C2 | | close instance ui | {\f1 c} | Close the FX windows of selection | | undo | {\f1 ctrl+z} | Call {\i undo} inside REAPER | | redo | {\f1 ctrl+Z} | Call {\i redo} inside REAPER | | | | | | freeze | {\f1 f} | Toggles the {\f1 Freeze} option | | dnd reaper | {\f1 q} | Toggles the {\f1 D&D REAPER} option | | sync | | Toggles the {\f1 Sync} option | | pitched | {\f1 w} | Toggles the {\f1 Pitched} option | | name by midi | | Toggles the {\f1 Name by MIDI} option | | create bus | | Toggles the {\f1 Create bus} option | | separate overlap | {\f1 e} | Toggles the {\f1 Separate overlap} option | | | | | | copy | {\f1 ctrl+c}, {\f1 y} | Copy selection | | paste | {\f1 ctrl+v}, {\f1 p} | Paste selection | | delete | {\f1 Delete}, {\f1 d} | Delete selection | | select all | {\f1 ctrl+a} | Select all note ranges | | | | | | solo toggle | {\f1 m} | Solo selection | | unsolo all | {\f1 M} | Unsolo selection | | mute toggle | {\f1 s} | Mute selection | | unmute all | {\f1 S} | Unmute selection | | reset solo and mute | {\f1 x} | Unmute and unsolo all note ranges | | | | | | params copy (sample) | {\f1 b} | Copy parameters, see {\field{\*\fldinst{HYPERLINK "#copying-parameters"}}{\fldrslt{\ul
 here
 }}}
  | | params copy (note) | {\f1 B} | As above, but a different set. | | params paste | {\f1 n} | Paste parameters. |\par}
@@ -234,7 +234,7 @@ here
 {\pard \ql \f0 \sa180 \li0 \fi0 Additionally, the Tk implementation on Windows is very inefficient in comparison to other platforms. I found the responsiveness of dragging/resizing to be somewhat sluggish, and start up times are quite long.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs24 Miscellaneous\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 There is some flickering while zooming. I'm pretty sure this is a limitation on how tkinter works, as I don't think it is impossible to pause the render callback during resizing. Please tell me if you know of a way to circumvent this!\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 When {\f1 on top} is enabled, the tooltips will be rendered behind the main window. This seems to be bug in the tkinter tooltip library. Disable {\f1 On top} to see the tooltips again.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 When {\f1 on top} is enabled, the tooltips and right click menus will be rendered behind the main window. This seems to be bug in the tkinter tooltip library. Disable {\f1 On top} to see the tooltips again.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 License\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 The script is licensed under the GNU GPLv3, see {\field{\*\fldinst{HYPERLINK "LICENSE"}}{\fldrslt{\ul
 license
