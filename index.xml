@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ReaSamplOmatic5000 Multi" commit="1dc333d5bae76a7465ae7410d8eb7bf4fa0f0feb">
+<index version="1" name="ReaSamplOmatic5000 Multi" commit="d4e677374fdd52a49bbb86613c25c476526e1015">
   <category name="Sampler">
     <reapack name="reasamplomatic_multi.py" type="script" desc="ReaSamplOmatic5000 multi">
       <metadata>
@@ -57,7 +57,7 @@ Fixed colors on MacOS]]></changelog>
 \widowctrl\hyphauto
 
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 ReaSamplOmatic5000 multi\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 ReaSamplOmatic500 multi lets you arrange ReaSamplOmatic5000 instances on a piano roll. This project aims to give REAPER a sampler such as FL Studio's {\field{\*\fldinst{HYPERLINK "https://www.image-line.com/fl-studio-learning/fl-studio-online-manual/html/plugins/DirectWave.htm"}}{\fldrslt{\ul
+{\pard \ql \f0 \sa180 \li0 \fi0 ReaSamplOmatic500 multi lets you arrange ReaSamplOmatic5000 instances on a keyboard layout. This project aims to give REAPER a sampler such as FL Studio's {\field{\*\fldinst{HYPERLINK "https://www.image-line.com/fl-studio-learning/fl-studio-online-manual/html/plugins/DirectWave.htm"}}{\fldrslt{\ul
 DirectWave Sampler
 }}}
  or the {\field{\*\fldinst{HYPERLINK "https://www.tx16wx.com/"}}{\fldrslt{\ul
@@ -163,7 +163,7 @@ too slow on Windows
 .\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs28 Feature list\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 A short list of miscellaneous features:\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Zoom & resize} Scroll the view with the mouse wheel, or click the middle mouse button and drag. Zoom with {\f1 ctrl+mousewheel}, or the {\f1 +} and {\f1 -} buttons. Zoom the piano roll with {\f1 alt+mousewheel}. The window is freely resizable (and you can change the default size in the script).\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Zoom & resize} Scroll the view with the mouse wheel, or click the middle mouse button and drag. Zoom with {\f1 ctrl+mousewheel}, or the {\f1 +} and {\f1 -} buttons. Change the piano notes size with {\f1 alt+mousewheel}. The window is freely resizable (and you can change the default size in the script).\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Layering} The note ranges align vertically such that they don't overlap. This allows for easy layering of multiple samples.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Syncing} The multi sampler will automatically reflect changes in REAPER, such as renaming of tracks and ReaSamplOmatic5000 instances. Some changes (that take much longer to check) are only updated on refocusing the multi sampler window.\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\b Pitched} By setting the {\f1 Pitched} option, newly added ReaSamplOmatic5000's are set to the {\f1 Note (Semitone shifted)} mode, instead of {\f1 Sample (Ignores MIDI note)}, and {\f1 Obey note-offs} is enabled. Enable this option when adding pitched samples, and disable when adding (unpitched) percussion. Unfortunately, you still {\field{\*\fldinst{HYPERLINK "#no-automatic-pitch-detection"}}{\fldrslt{\ul
