@@ -4,7 +4,7 @@
 
  The script is powered by the excellent [reapy](https://github.com/RomeoDespres/reapy), and uses [tkinter](https://docs.python.org/3/library/tkinter.html) for the GUI.
 
- You might also be interested in [MPL's ReaSamplomatic5000 manager](https://forums.cockos.com/showthread.php?t=207972), which is similar but focuses mainly on single-note (drum) samples. Definitely check out his useful [ReaSamplomatic5000 scripts](https://github.com/MichaelPilyavskiy/ReaScripts) too!
+ You might also be interested in [MPL's ReaSamplomatic5000 manager](https://forums.cockos.com/showthread.php?t=207972), which is similar but focuses mainly on single-note (drum) samples. Definitely check out his useful [ReaSamplomatic5000 scripts](https://github.com/MichaelPilyavskiy/ReaScripts) too! The `mpl_Export selected items to RS5k instances on selected track` scripts are especially useful together with this script. 
 
 ## Contents
 
@@ -124,6 +124,7 @@ You should use the tkinter syntax for this (I think the present bindings should 
 | add                  | `a`           | Add a ReaSamplOmatic5000 instance                |
 | refresh              | `r`           | Resync with REAPER                               |
 | separate             | `g`           | Separate selection, see [here](#creating-groups) |
+| detect pitch         | `D`           | Call `Detect pitch` function of selection        |
 | scroll to center     | `z`           | Scroll the view to C2                            |
 | close instance ui    | `c`           | Close the FX windows of selection                |
 | undo                 | `ctrl+z`      | Call _undo_ inside REAPER                        |
@@ -187,7 +188,7 @@ Additionally, the Tk implementation on Windows is very inefficient in comparison
 
 There is some flickering while zooming. I'm pretty sure this is a limitation on how tkinter works, as I don't think it is impossible to pause the render callback during resizing. Please tell me if you know of a way to circumvent this!
 
-When `on top` is enabled, the tooltips will be rendered behind the main window. This seems to be bug in the tkinter tooltip library. Disable `On top` to see the tooltips again.
+When `on top` is enabled, the tooltips and right click menus will be rendered behind the main window. This seems to be bug in the tkinter tooltip library. Disable `On top` to see the tooltips again.
 
 
 ## License

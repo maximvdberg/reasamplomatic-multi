@@ -120,6 +120,7 @@ gain_for_minimum_velocity = 0.03162277489900589 # "Min vol" in REAPER.
 keys_add = ['a']
 keys_refresh = ['r']
 keys_separate = ['g']
+keys_detect_pitch = ['D']
 keys_scroll_center = ['z']
 keys_close_ui = ['c']
 keys_undo = ['Control-z']
@@ -722,7 +723,7 @@ class SamploRange():
 
             with rp.undo_block('Multi-Sampler: update note range'):
                 params = self.fx.params
-                difference = self.start - params["Note range start"] * 127
+                difference = self.start - round(params["Note range start"] * 127)
 
                 params["Note range start"] = self.start / 127
                 params["Note range end"] = self.end / 127
@@ -1034,7 +1035,6 @@ def add_in_reaper(samplorange, track, note_start, note_end,
 
     if create_pitched:
         if detect_pitch_script_id:
-            print("Perform detect pitch!")
             rp.Project().perform_action(detect_pitch_script_id)
 
 
@@ -1074,7 +1074,7 @@ def init(insert_at_cursor=False):
     with rp.inside_reaper():
         project = rp.Project()
 
-        # Set all selected tracks. Of none are selected, create a new one.
+        # Set all selected tracks. If none are selected, create a new one.
         tracks = project.selected_tracks if not freeze.get() else [current_track]
         if len(tracks) == 0:
             tracks = [project.add_track()]
@@ -1106,6 +1106,23 @@ def refresh():
     else:
         clear_samploranges()
 
+
+
+def detect_pitch_selected():
+    global samploranges
+    if not detect_pitch_script_id:
+        return
+
+    delay = 1000
+    for i, samplorange in enumerate(samploranges):
+        if samplorange.selected:
+            root.after(100 + i * delay, detect_pitch, samplorange)
+
+@rp.inside_reaper()
+def detect_pitch(samplorange):
+    project = rp.Project()
+    samplorange.fx.open_ui()
+    project.perform_action(detect_pitch_script_id)
 
 
 # # # Separate functionality # # #
@@ -1308,16 +1325,16 @@ def dnd_remove_warning():
     if track_name_text.get() == "Please select a track to drag and drop to.":
         track_name_text.set("")
 
-@rp.inside_reaper()
 def drop_reaper():
     global samploranges_drag, current_track
 
     for srange in samploranges_drag:
-        srange.color = current_track.color
-        add_in_reaper(srange, current_track, srange.start,
-                      srange.end, gain_for_minimum_velocity,
-                      create_pitched.get())
-        set_samples(srange.fx, [srange.filename])
+        with rp.inside_reaper():
+            srange.color = current_track.color
+            add_in_reaper(srange, current_track, srange.start,
+                        srange.end, gain_for_minimum_velocity,
+                        create_pitched.get())
+            set_samples(srange.fx, [srange.filename])
         srange.redraw()
     samploranges_drag = None
 
@@ -2257,6 +2274,8 @@ def guimain():
         canvas.bind_all(f"<{k}>", lambda e: undo())
     for k in keys_redo:
         canvas.bind_all(f"<{k}>", lambda e: redo())
+    for k in keys_detect_pitch:
+        canvas.bind_all(f"<{k}>", lambda e: detect_pitch_selected())
 
     window.bind("<Button-1>", lambda e: deselect_all())
 
@@ -2342,6 +2361,7 @@ def guimain():
     m.add_separator()
     m.add_command(label = "Close UI", command=close_ui_selected)
     m.add_command(label = "Separate", command=separate)
+    m.add_command(label = "Detect pitch", command=detect_pitch_selected)
     m.add_separator()
     m.add_command(label = "Refresh", command=refresh)
     m.bind("<FocusOut>", popup_close)
@@ -2416,7 +2436,8 @@ def guimain():
     canvas.pack(side="top", fill="both", expand=True)
 
     # Setup the REAPER check loop.
-    check_loop = root.after(100, sync)
+    check_loop = root.after(100, reaper_sync)
+    check_loop = root.after(200, sync)
 
     # Start the GUI loop.
     root.after(10, lambda c=canvas: c.xview_moveto(36/128)) # Scroll the view to C2
